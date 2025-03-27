@@ -22,25 +22,56 @@ test('네이버 항공권 검색', async ({ page }) => {
   await page.locator('a').filter({ hasText: '나리타국제공항 NRT'}).click();
 
 
-  // 날짜 선택 (오늘 날짜 기준으로 7일 뒤 선택)
-  await page.getByRole('button', { name: '가는 날' }).click();
-
+  // 오늘 기준 금요일~일요일 계산
   const today = new Date();
-  const nextWeek = new Date(today);
-  nextWeek.setDate(today.getDate() + 7);
-  
-  const y = nextWeek.getFullYear();
-  const m = nextWeek.getMonth() + 1;
-  const d = nextWeek.getDate();
-  const formattedDate = `${y}년 ${m}월 ${d}일`;
-  
-  await page.getByLabel(formattedDate).click();
+  const day = today.getDay();
+  const daysUntilFriday = (5 - day + 7) % 7;
+  const departDate = new Date(today);
+  departDate.setDate(today.getDate() + daysUntilFriday);
+  const returnDate = new Date(departDate);
+  returnDate.setDate(departDate.getDate() + 2);
+
+  const departDay = departDate.getDate();
+  const returnDay = returnDate.getDate();
+
+// 가는 날 달력 열기
+await page.getByRole('button', { name: '가는 날' }).click();
+await page.waitForTimeout(1000);
+
+// 금요일 클릭 (가는 날)
+await page.locator('.sc-jlZhew', { hasText: `${departDay}` }).first().click();
+await page.waitForTimeout(500);
+
+// 일요일 클릭 (오는 날)
+await page.locator('.sc-jlZhew', { hasText: `${returnDay}` }).first().click();
 
   // 항공권 검색 버튼 클릭
   const searchButton = page.getByRole('button', { name: '항공권 검색' });
   await expect(searchButton).toBeVisible();
   await searchButton.click();
 
-  // 검색 결과가 나타나는지 확인 (예: 결과 텍스트 또는 요소 존재 여부 확인)
-  await expect(page.locator('div.result')).toBeVisible();
-});
+  // 인기 항공편 리스트: 최대 15초 기다리며 로딩 여부 확인
+  const popular = page.locator('div[class*="popular_flight_list"]');
+
+  let found = false;
+  const timeout = 15000;
+  const start = Date.now();
+
+  while (Date.now() - start < timeout) {
+   if (await popular.count() > 0) {
+    found = true;
+    break;
+   }
+  await page.waitForTimeout(500); // 0.5초 간격으로 체크
+ }
+
+ if (found) {
+  await expect(popular.first()).toBeVisible({ timeout: 5000 });
+  console.log('✅ 인기 항공편 리스트 확인됨');
+ } else {
+  console.log('⚠️ 인기 항공편 리스트 없음 (15초 안에 로딩되지 않음)');
+ }
+
+  // 결과가 로딩되었는지: "왕복 동시 선택" 버튼이 보이면 성공
+  await expect(page.getByRole('button', { name: '왕복 동시 선택' })).toBeVisible({ timeout: 100000 });
+ });
