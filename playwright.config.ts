@@ -5,7 +5,7 @@ export default defineConfig({
   timeout: 90000,
   use: {
     headless: true, // true로 설정해야 GitHub Actions에서 실행 가능 (깃헙 액션스는 GUI가 없는 서버 환경이기 떄문)
-    viewport: { width: 1280, height: 720 },
+    viewport: { width: 1500, height: 1500 },
     actionTimeout: 0,
     screenshot: 'on',
   },
