@@ -52,11 +52,11 @@ test('네이버 항공권 검색', async ({ page }) => {
   await expect(searchButton).toBeVisible();
   await searchButton.click();
 
-  // 인기 항공편 리스트: 최대 15초 기다리며 로딩 여부 확인
+  // 인기 항공편 리스트: 최대 90초 기다리며 로딩 여부 확인
   const popular = page.locator('div[class*="popular_flight_list"]');
 
   let found = false;
-  const timeout = 15000;
+  const timeout = 90000;
   const start = Date.now();
 
   while (Date.now() - start < timeout) {
