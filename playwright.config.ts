@@ -5,29 +5,24 @@ export default defineConfig({
   timeout: 90000,
   use: {
     headless: true,
-    viewport: { width: 1920, height: 1080 }, // 💡 기본 viewport도 설정
+    viewport: { width: 1920, height: 1080 }, // 고정 해상도
     actionTimeout: 0,
-    screenshot: 'on', // 성공/실패 모두 스크린샷 저장
-    video: 'on', // 모든 테스트에 대해 비디오 저장
+    screenshot: 'on', //  성공/실패 모두 저장
+    video: 'on',      //  항상 비디오 저장
   },
   projects: [
     {
       name: 'Chromium (Chrome)',
       use: {
         channel: 'chrome',
-        headless: true,
-        viewport: { width: 1920, height: 1080 }, 
-        video: 'on',
       },
     },
     {
       name: 'Microsoft Edge',
       use: {
         channel: 'msedge',
-        headless: true,
-        viewport: { width: 1920, height: 1080 }, 
-        video:'on'
       },
     },
   ],
 });
+
