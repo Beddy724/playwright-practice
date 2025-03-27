@@ -30,3 +30,6 @@ build/
 out/
 coverage/
 
+# 테스트 코드 수정 방지용
+tests/naver-flight.spec.ts
+
