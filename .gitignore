@@ -1,7 +1,32 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 환경 변수 파일
+.env
+.env.*  
 
 # Playwright
-node_modules/
-/test-results/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
+test-results/
+playwright-report/
+.playwright/
+
+# 운영 체제별
+.DS_Store
+Thumbs.db
+
+# IDE 설정 파일
+.vscode/
+.idea/
+
+# GitHub Actions에서 생성된 Artifacts (옵션)
+*.tgz
+
+# 기타 빌드 파일
+dist/
+build/
+out/
+coverage/
+
