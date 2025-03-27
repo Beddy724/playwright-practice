@@ -62,6 +62,6 @@ test('네이버 항공권 검색', async ({ page }) => {
     console.log('⚠️ 인기 항공편 리스트 없음 (15초 안에 로딩되지 않음)');
   }
 
-  // 결과가 로딩되었는지: "인기 항공편" 버튼이 보이면 성공
-  await expect(page.getByRole('button', { name: '인기 항공편' })).toBeVisible({ timeout: 100000 });
+  // 결과가 로딩되었는지: "왕복 동시 선택" 버튼이 보이면 성공
+  await expect(page.getByRole('button', { name: '왕복 동시 선택' })).toBeVisible({ timeout: 100000 });
 });
