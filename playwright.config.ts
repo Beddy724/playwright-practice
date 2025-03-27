@@ -4,9 +4,11 @@ export default defineConfig({
   testDir: './tests',
   timeout: 90000,
   use: {
-    headless: true, // true로 설정해야 GitHub Actions에서 실행 가능 (깃헙 액션스는 GUI가 없는 서버 환경이기 떄문)
-    viewport: { width: 1500, height: 1500 },
+    headless: true, // GitHub Actions 실행용
+    viewport: { width: 1920, height: 1080 },
     actionTimeout: 0,
+
+    // ✅ 성공/실패 모두 스크린샷 저장
     screenshot: 'on',
   },
   projects: [
@@ -18,9 +20,8 @@ export default defineConfig({
       name: 'Microsoft Edge',
       use: {
         channel: 'msedge',
-        headless: true, // Edge도 수정
+        headless: true,
       },
     },
   ],
 });
-
