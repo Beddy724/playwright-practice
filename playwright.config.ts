@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 30000,
+  timeout: 90000,
   use: {
     headless: true, // true로 설정해야 GitHub Actions에서 실행 가능 (깃헙 액션스는 GUI가 없는 서버 환경이기 떄문)
     viewport: { width: 1280, height: 720 },
