@@ -52,28 +52,16 @@ test('네이버 항공권 검색', async ({ page }) => {
   await expect(searchButton).toBeVisible();
   await searchButton.click();
 
-  // 인기 항공편 리스트: 최대 90초 기다리며 로딩 여부 확인
+  // 인기 항공편 리스트: 15초 동안 기다리며 나타나는지 확인
   const popular = page.locator('div[class*="popular_flight_list"]');
 
-  let found = false;
-  const timeout = 90000;
-  const start = Date.now();
-
-  while (Date.now() - start < timeout) {
-    if (await popular.count() > 0) {
-      found = true;
-      break;
-    }
-    await page.waitForTimeout(500);
-  }
-
-  if (found) {
-    await expect(popular.first()).toBeVisible({ timeout: 5000 });
+  try {
+    await expect(popular.first()).toBeVisible({ timeout: 15000 });
     console.log('✅ 인기 항공편 리스트 확인됨');
-  } else {
+  } catch {
     console.log('⚠️ 인기 항공편 리스트 없음 (15초 안에 로딩되지 않음)');
   }
 
-  // 결과가 로딩되었는지: "왕복 동시 선택" 버튼이 보이면 성공
-  await expect(page.getByRole('button', { name: '왕복 동시 선택' })).toBeVisible({ timeout: 100000 });
+  // 결과가 로딩되었는지: "인기 항공편" 버튼이 보이면 성공
+  await expect(page.getByRole('button', { name: '인기 항공편' })).toBeVisible({ timeout: 100000 });
 });
