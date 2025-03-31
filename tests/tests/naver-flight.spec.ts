@@ -30,16 +30,24 @@ test('네이버 항공권 검색', async ({ page }) => {
     return `${yyyy}.${mm}.${dd}`;
   };
 
-  // 기준 날짜: 오늘 이후의 첫 금요일 ~ 일요일
+  // ✅ 날짜 계산 (오늘이 토/일이면 다음 주 금요일부터 시작)
   const today = new Date();
   const baseDate = new Date(today);
   today.setHours(0, 0, 0, 0);
-  while (baseDate.getDay() !== 5 || baseDate <= today) {
-    baseDate.setDate(baseDate.getDate() + 1);
+
+  if (today.getDay() === 6 || today.getDay() === 0) {
+    // 토요일(6), 일요일(0) → 다음 주 금요일
+    const daysUntilNextFriday = (12 - today.getDay()) % 7;
+    baseDate.setDate(baseDate.getDate() + daysUntilNextFriday);
+  } else {
+    // 평일이면 이번 주 금요일 찾기
+    while (baseDate.getDay() !== 5 || baseDate <= today) {
+      baseDate.setDate(baseDate.getDate() + 1);
+    }
   }
 
-  let departDate = new Date(baseDate);
-  let returnDate = new Date(baseDate);
+  let departDate = new Date(baseDate); // 금요일
+  let returnDate = new Date(baseDate); // 일요일
   returnDate.setDate(baseDate.getDate() + 2);
 
   // 달력 열기
@@ -72,12 +80,11 @@ test('네이버 항공권 검색', async ({ page }) => {
       visibleMonths = visibleMonths.map((text) => text.trim());
     }
 
-    // 원하는 월 달력 찾기
+    // 해당 월 달력 내부에서 날짜 찾기
     const monthHeader = page.locator(`.sc-dAlyuH:has-text("${departMonthLabel}")`).first();
-    const calendarWrapper = monthHeader.locator('xpath=..'); // 상위 div
+    const calendarWrapper = monthHeader.locator('xpath=..');
     const calendarTable = calendarWrapper.locator('table');
 
-    // 해당 달 안에서 원하는 날짜 선택
     const departLocator = calendarTable.locator(`td:has-text("${departDay}")`).first();
     const returnLocator = calendarTable.locator(`td:has-text("${returnDay}")`).first();
 
@@ -96,7 +103,6 @@ test('네이버 항공권 검색', async ({ page }) => {
 
     console.log(`❌ ${departStr} 또는 ${returnStr} 선택 불가 → 다음 주로 이동`);
 
-    // 다음 주 날짜로 변경
     departDate.setDate(departDate.getDate() + 7);
     returnDate.setDate(returnDate.getDate() + 7);
     tryCount++;
@@ -106,7 +112,7 @@ test('네이버 항공권 검색', async ({ page }) => {
     throw new Error('❌ 3주 동안 선택 가능한 금요일/일요일 조합을 찾지 못했습니다.');
   }
 
-  // 항공권 검색
+  // 항공권 검색 클릭
   const searchButton = page.getByRole('button', { name: '항공권 검색' });
   await expect(searchButton).toBeVisible();
   await searchButton.click();
@@ -127,3 +133,4 @@ test('네이버 항공권 검색', async ({ page }) => {
   // 왕복 동시 선택 버튼 확인
   await expect(page.getByRole('button', { name: '왕복 동시 선택' })).toBeVisible({ timeout: 100000 });
 });
+
