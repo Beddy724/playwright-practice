@@ -5,7 +5,7 @@ export default defineConfig({
   timeout: 90000,
   use: {
     headless: true,
-    viewport: { width: 1920, height: 1080 }, // 💡 전역 기본값
+    viewport: { width: 1920, height: 2000 }, // 💡 전역 기본값
     actionTimeout: 0,
     screenshot: 'on',
     video: 'on',
@@ -16,7 +16,7 @@ export default defineConfig({
       use: {
         channel: 'chrome',
         headless: true,
-        viewport: { width: 1920, height: 1080 }, // 💡 명시적으로 지정
+        viewport: { width: 1920, height: 2000 }, // 💡 명시적으로 지정
         screenshot: 'on',
         video: 'on',
       },
@@ -26,7 +26,7 @@ export default defineConfig({
       use: {
         channel: 'msedge',
         headless: true,
-        viewport: { width: 1920, height: 1080 }, // 💡 명시적으로 지정
+        viewport: { width: 1920, height: 2000 }, // 💡 명시적으로 지정
         screenshot: 'on',
         video: 'on',
       },

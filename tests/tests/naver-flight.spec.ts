@@ -22,62 +22,83 @@ test('네이버 항공권 검색', async ({ page }) => {
   await page.getByRole('textbox', { name: '국가, 도시, 공항명 검색' }).fill('도쿄');
   await page.locator('a').filter({ hasText: '나리타국제공항 NRT' }).click();
 
-  // 금요일~일요일 계산
+  // 날짜 포맷 함수
+  const formatDate = (date: Date) => {
+    const yyyy = date.getFullYear();
+    const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+    const dd = date.getDate().toString().padStart(2, '0');
+    return `${yyyy}.${mm}.${dd}`;
+  };
+
+  // 기준 날짜: 오늘 이후의 첫 금요일 ~ 일요일
   const today = new Date();
   const baseDate = new Date(today);
   today.setHours(0, 0, 0, 0);
-
   while (baseDate.getDay() !== 5 || baseDate <= today) {
     baseDate.setDate(baseDate.getDate() + 1);
   }
 
-  const departDate = new Date(baseDate);
-  const returnDate = new Date(baseDate);
+  let departDate = new Date(baseDate);
+  let returnDate = new Date(baseDate);
   returnDate.setDate(baseDate.getDate() + 2);
 
   // 달력 열기
   await page.getByRole('button', { name: '가는 날' }).click();
   await page.waitForTimeout(1000);
 
-  // 날짜 선택 반복 시도 (최대 3주)
   let tryCount = 0;
-  let departDateToTry = new Date(departDate);
-  let returnDateToTry = new Date(returnDate);
 
   while (tryCount < 3) {
-    const departDay = departDateToTry.getDate();
-    const returnDay = returnDateToTry.getDate();
+    const departStr = formatDate(departDate);
+    const returnStr = formatDate(returnDate);
+    const departDay = departDate.getDate();
+    const returnDay = returnDate.getDate();
+    const departMonthLabel = departStr.slice(0, 8); // ex: '2025.04.'
 
-    let departLocator = page.locator('.sc-jlZhew', { hasText: `${departDay}` }).first();
-    let returnLocator = page.locator('.sc-jlZhew', { hasText: `${returnDay}` }).first();
+    // 달력이 보이는지 체크
+    let visibleMonths = await page.locator('.sc-dAlyuH').allTextContents();
+    visibleMonths = visibleMonths.map((text) => text.trim());
 
-    const departEnabled = await departLocator.isEnabled();
-    const returnEnabled = await returnLocator.isEnabled();
+    // 원하는 달이 보일 때까지 '다음 달' 클릭
+    while (!visibleMonths.includes(departMonthLabel)) {
+      const nextBtn = page.locator('.awesome-calendar table thead tr th').filter({
+        has: page.locator('svg'),
+      }).last();
+      await nextBtn.scrollIntoViewIfNeeded();
+      await nextBtn.click();
+      await page.waitForTimeout(500);
 
-    if (departEnabled && returnEnabled) {
+      visibleMonths = await page.locator('.sc-dAlyuH').allTextContents();
+      visibleMonths = visibleMonths.map((text) => text.trim());
+    }
+
+    // 원하는 월 달력 찾기
+    const monthHeader = page.locator(`.sc-dAlyuH:has-text("${departMonthLabel}")`).first();
+    const calendarWrapper = monthHeader.locator('xpath=..'); // 상위 div
+    const calendarTable = calendarWrapper.locator('table');
+
+    // 해당 달 안에서 원하는 날짜 선택
+    const departLocator = calendarTable.locator(`td:has-text("${departDay}")`).first();
+    const returnLocator = calendarTable.locator(`td:has-text("${returnDay}")`).first();
+
+    const departVisible = await departLocator.isVisible();
+    const returnVisible = await returnLocator.isVisible();
+
+    if (departVisible && returnVisible) {
+      await departLocator.scrollIntoViewIfNeeded();
       await departLocator.click();
       await page.waitForTimeout(300);
+      await returnLocator.scrollIntoViewIfNeeded();
       await returnLocator.click();
-      console.log(`✅ 선택된 날짜: ${departDateToTry.toDateString()} ~ ${returnDateToTry.toDateString()}`);
+      console.log(`✅ 선택된 날짜: ${departStr} ~ ${returnStr}`);
       break;
     }
 
-    console.log(`❌ ${departDay}일 또는 ${returnDay}일 선택 불가 → 다음 달로 이동`);
+    console.log(`❌ ${departStr} 또는 ${returnStr} 선택 불가 → 다음 주로 이동`);
 
-    const nextMonthSelector = 'button[aria-label="다음 달"]';
-
-    try {
-      await page.waitForSelector(nextMonthSelector, { timeout: 10000 });
-      const nextMonthButton = page.locator(nextMonthSelector);
-      await nextMonthButton.scrollIntoViewIfNeeded(); // 💡 뷰포트로 스크롤
-      await nextMonthButton.click();
-      await page.waitForTimeout(500);
-    } catch {
-      throw new Error('❌ "다음 달" 버튼이 보이지 않아 날짜 선택 불가');
-    }
-
-    departDateToTry.setDate(departDateToTry.getDate() + 7);
-    returnDateToTry.setDate(returnDateToTry.getDate() + 7);
+    // 다음 주 날짜로 변경
+    departDate.setDate(departDate.getDate() + 7);
+    returnDate.setDate(returnDate.getDate() + 7);
     tryCount++;
   }
 
@@ -85,7 +106,7 @@ test('네이버 항공권 검색', async ({ page }) => {
     throw new Error('❌ 3주 동안 선택 가능한 금요일/일요일 조합을 찾지 못했습니다.');
   }
 
-  // 항공권 검색 버튼 클릭
+  // 항공권 검색
   const searchButton = page.getByRole('button', { name: '항공권 검색' });
   await expect(searchButton).toBeVisible();
   await searchButton.click();
