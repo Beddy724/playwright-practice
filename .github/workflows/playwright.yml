@@ -3,41 +3,33 @@ name: Playwright Tests
 on:
   push:
     branches: [ main, master ]
-
   pull_request:
     branches: [ main, master ]
 
 jobs:
   test:
     timeout-minutes: 90
-    runs-on: ubuntu-latest  # 최신 Ubuntu 환경에서 실행
+    runs-on: ubuntu-latest
 
     steps:
       - name: 저장소 체크아웃
-        uses: actions/checkout@v4  # 저장소의 코드 가져오기
+        uses: actions/checkout@v4
 
       - name: Node.js 설정
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: 의존성 설치
         run: npm ci
 
-      - name: Install Playwright Browsers
+      - name: Playwright 브라우저 설치
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
+      - name: Playwright 테스트 실행
         run: npx playwright test
 
-      - name: 테스트 결과 저장 (Artifacts)
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-results
-          path: test-results/
-
-      - name: HTML 리포트 업로드 (playwright-report)
+      - name: HTML 리포트 업로드
         uses: actions/upload-artifact@v4
         if: always()
         with:
