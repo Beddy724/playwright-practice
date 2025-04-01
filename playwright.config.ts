@@ -1,37 +1,45 @@
-import { defineConfig } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 90000,
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+
+  // html 결과 보여주기
+  reporter: [
+    ['html', { outputFolder: 'playwright-report' }]
+  ],
+
   use: {
-    headless: true,
-    viewport: { width: 1920, height: 2000 }, // 💡 전역 기본값
-    actionTimeout: 0,
-    screenshot: 'on',
-    video: 'on',
+    baseURL: 'https://flight.naver.com',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    launchOptions: {
+    slowMo: 1000,
+    }
   },
+
   projects: [
     {
-      name: 'Chromium (Chrome)',
-      use: {
+      name: 'chromium',
+      use: { 
+        ...devices['Desktop Chrome'],
         channel: 'chrome',
         headless: true,
-        viewport: { width: 1920, height: 2000 }, // 💡 명시적으로 지정
-        screenshot: 'on',
-        video: 'on',
+        viewport: { width: 1920, height: 2000 }
       },
     },
     {
-      name: 'Microsoft Edge',
-      use: {
+      name: 'edge',
+      use: { 
+        ...devices['Desktop Edge'],
         channel: 'msedge',
         headless: true,
-        viewport: { width: 1920, height: 2000 }, // 💡 명시적으로 지정
-        screenshot: 'on',
-        video: 'on',
+        viewport: { width: 1920, height: 2000 }
       },
-    },
+    }
   ],
 });
-
-

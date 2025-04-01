@@ -30,10 +30,10 @@ test('네이버 항공권 검색', async ({ page }) => {
     return `${yyyy}.${mm}.${dd}`;
   };
 
-  // 가는 날: 다음 금요일 / 오는 날: 그 주 일요일
+  // ✅ 날짜 계산: 다음 가능한 금요일 ~ 그 일요일
   const today = new Date();
-  today.setHours(0, 0, 0, 0);
   const baseDate = new Date(today);
+  today.setHours(0, 0, 0, 0);
 
   if (today.getDay() === 6 || today.getDay() === 0) {
     const daysUntilNextFriday = (12 - today.getDay()) % 7;
@@ -59,7 +59,7 @@ test('네이버 항공권 검색', async ({ page }) => {
     const returnStr = formatDate(returnDate);
     const departDay = departDate.getDate();
     const returnDay = returnDate.getDate();
-    const departMonthLabel = departStr.slice(0, 8);
+    const departMonthLabel = departStr.slice(0, 8); // ex: '2025.04.'
     const returnMonthLabel = returnStr.slice(0, 8);
 
     console.log(`🔍 시도 ${tryCount + 1}: ${departStr} ~ ${returnStr}`);
@@ -81,26 +81,27 @@ test('네이버 항공권 검색', async ({ page }) => {
       visibleMonths = visibleMonths.map((text) => text.trim());
     }
 
-    // 해당 달 달력 안에서 날짜 선택
+    // 해당 달에서 가는 날 선택
     const departHeader = page.locator(`.sc-dAlyuH:has-text("${departMonthLabel}")`).first();
-    const departTable = departHeader.locator('xpath=../..').locator('table');
-    const departLocator = departTable.locator(`.sc-jlZhew:has-text("${departDay}")`).first();
+    const calendarWrapper = departHeader.locator('xpath=..');
+    const calendarTable = calendarWrapper.locator('table');
+    const departLocator = calendarTable.locator(`.sc-jlZhew:has-text("${departDay}")`).first();
 
-    if (!(await departLocator.isEnabled())) {
-      console.log(`❌ ${departStr} 비활성 (가는 날)`);
+    await departLocator.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(200);
+
+    if (!(await departLocator.isVisible())) {
+      console.log(`❌ ${departStr} 보이지 않음 (가는 날)`);
       departDate.setDate(departDate.getDate() + 7);
       returnDate.setDate(returnDate.getDate() + 7);
       tryCount++;
       continue;
     }
 
-    await departLocator.scrollIntoViewIfNeeded();
     await departLocator.click();
-
-    // 오는 날 선택 UI 나올 때까지 대기
     await expect(page.getByText('오는 날 선택')).toBeVisible({ timeout: 3000 });
 
-    // 다시 달 확인
+    // 오는 날 달력 스크롤
     visibleMonths = await page.locator('.sc-dAlyuH').allTextContents();
     visibleMonths = visibleMonths.map((text) => text.trim());
 
@@ -120,15 +121,17 @@ test('네이버 항공권 검색', async ({ page }) => {
     const returnTable = returnHeader.locator('xpath=../..').locator('table');
     const returnLocator = returnTable.locator(`.sc-jlZhew:has-text("${returnDay}")`).first();
 
-    if (!(await returnLocator.isEnabled())) {
-      console.log(`❌ ${returnStr} 비활성 (오는 날)`);
+    await returnLocator.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(200);
+
+    if (!(await returnLocator.isVisible())) {
+      console.log(`❌ ${returnStr} 보이지 않음 (오는 날)`);
       departDate.setDate(departDate.getDate() + 7);
       returnDate.setDate(returnDate.getDate() + 7);
       tryCount++;
       continue;
     }
 
-    await returnLocator.scrollIntoViewIfNeeded();
     await returnLocator.click();
 
     console.log(`✅ 선택된 날짜: ${departStr} ~ ${returnStr}`);
