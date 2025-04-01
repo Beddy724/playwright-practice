@@ -28,7 +28,7 @@ export default defineConfig({
       use: { 
         ...devices['Desktop Chrome'],
         screenshot: 'on',
-        viewport: { width: 1920, height: 1500 }
+        viewport: { width: 1920, height: 1300 }
       },
     },
     {
@@ -36,7 +36,7 @@ export default defineConfig({
       use: { 
         ...devices['Desktop Edge'],
         screenshot: 'on',
-        viewport: { width: 1920, height: 1500 }
+        viewport: { width: 1920, height: 1300 }
       },
     }
   ],
