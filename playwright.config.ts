@@ -13,8 +13,7 @@ export default defineConfig({
   ],
 
   use: {
-    baseURL: 'https://flight.naver.com',
-    trace: 'on-first-retry',
+    headless: false,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
     launchOptions: {
@@ -27,8 +26,7 @@ export default defineConfig({
       name: 'chromium',
       use: { 
         ...devices['Desktop Chrome'],
-        channel: 'chrome',
-        headless: true,
+        screenshot: 'only-on-failure',
         viewport: { width: 1920, height: 2000 }
       },
     },
@@ -36,8 +34,7 @@ export default defineConfig({
       name: 'edge',
       use: { 
         ...devices['Desktop Edge'],
-        channel: 'msedge',
-        headless: true,
+        screenshot: 'only-on-failure',
         viewport: { width: 1920, height: 2000 }
       },
     }
