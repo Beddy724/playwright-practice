@@ -17,7 +17,7 @@ export default defineConfig({
   outputDir: 'test-results',
 
   use: {
-    headless: false,
+    headless: !!process.env.CI,
     screenshot: 'on',           // 성공/실패 상관없이 스크린샷 저장
     video: 'on',                // 성공/실패 상관없이 비디오 저장
     launchOptions: {
