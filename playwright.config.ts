@@ -10,19 +10,19 @@ export default defineConfig({
 
   // ✅ HTML 리포트 설정
   reporter: [
-    ['html', { outputFolder: 'playwright-report' }]
+    ['html', { outputFolder: 'playwright-report', open: 'never' }]
   ],
 
-  // ✅ 테스트 결과 파일 저장 경로
+  // ✅ 결과 저장 디렉토리 (전역 설정)
   outputDir: 'test-results',
 
   use: {
     headless: !!process.env.CI,
-    screenshot: 'on',           // 성공/실패 상관없이 스크린샷 저장
-    video: 'on',                // 성공/실패 상관없이 비디오 저장
+    screenshot: 'on',           // 성공/실패 모두 스크린샷 저장
+    video: 'on',                // 성공/실패 모두 비디오 저장
     launchOptions: {
-      slowMo: 1000,             // 느리게 보기
-    }
+      slowMo: 1000,
+    },
   },
 
   projects: [
@@ -30,7 +30,6 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        screenshot: 'on',
         viewport: { width: 1920, height: 1300 }
       },
     },
@@ -38,9 +37,11 @@ export default defineConfig({
       name: 'edge',
       use: {
         ...devices['Desktop Edge'],
-        screenshot: 'on',
         viewport: { width: 1920, height: 1300 }
       },
     }
   ],
 });
+
+
+
