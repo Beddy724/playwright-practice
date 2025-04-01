@@ -2,13 +2,14 @@
   "name": "playwright-ci-cd",
   "version": "1.0.0",
   "description": "Playwright CI/CD 프로젝트",
- "scripts": {
-  "test": "playwright test",
-  "test:headed": "playwright test --headed",
-  "test:ui": "playwright test --ui",
-  "report": "playwright show-report",
-  "test:report": "playwright test && playwright show-report"
- },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "report": "playwright show-report",
+    "test:report": "playwright test && playwright show-report",
+    "report:ci": "npx playwright show-report --host 0.0.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,3 +22,4 @@
     "date-fns": "^4.1.0"
   }
 }
+
