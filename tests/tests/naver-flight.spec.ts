@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('네이버 항공권 검색', async ({ page }) => {
+test('네이버 도쿄 항공권 검색', async ({ page }) => {
   await page.goto('https://flight.naver.com/');
   await page.waitForLoadState('domcontentloaded');
   await page.waitForTimeout(2000);
