@@ -8,7 +8,8 @@
     "test:ui": "playwright test --ui",
     "report": "playwright show-report",
     "test:report": "playwright test && playwright show-report",
-    "report:ci": "npx playwright show-report --host 0.0.0.0"
+    "report:ci": "npx playwright show-report --host 0.0.0.0",
+    "serve:report": "npx serve playwright-report"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,8 @@
   "type": "commonjs",
   "devDependencies": {
     "@playwright/test": "^1.42.1",
-    "@types/node": "^20.11.19"
+    "@types/node": "^20.11.19",
+    "serve": "^15.0.1"
   },
   "dependencies": {
     "date-fns": "^4.1.0"
