@@ -29,17 +29,14 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      # ✅ test-results 안에 저장된 스크린샷/비디오를 리포트에 포함
-      - name: Create test-results directory if not exists
-        if: always()
-        run: mkdir -p test-results
-
-      # ✅ 리포트에 test-results 폴더 복사해서 미디어 연결됨
+      # ✅ 리포트에 test-results 포함: 스크린샷, 비디오 확인 가능
       - name: Copy test-results into report folder
         if: always()
-        run: cp -r test-results playwright-report/test-results
+        run: |
+          mkdir -p playwright-report/test-results
+          cp -r test-results/* playwright-report/test-results/
 
-      - name: 테스트 결과 개별 업로드
+      - name: 테스트 결과 업로드
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -47,7 +44,7 @@ jobs:
           path: test-results/
           retention-days: 30
 
-      - name: HTML 리포트 개별 업로드
+      - name: HTML 리포트 업로드
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -64,6 +61,7 @@ jobs:
           publish_branch: gh-pages
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
+
 
 
 
