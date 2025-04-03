@@ -29,3 +29,6 @@ dist/
 build/
 out/
 coverage/
+
+# 리포트 압축 파일이 생긴다면
+playwright-report.zip
