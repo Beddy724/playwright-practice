@@ -29,16 +29,12 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      # ✅ test-results 폴더가 존재할 경우에만 복사
-      - name: Copy test-results into report folder
+      # ✅ 리포트 내부로 test-results 복사 (스크린샷/비디오 포함)
+      - name: Copy test-results into playwright-report
         if: always()
         run: |
-          if [ -d "test-results" ]; then
-            mkdir -p playwright-report/test-results
-            cp -r test-results/* playwright-report/test-results/ || echo "No test-results to copy"
-          else
-            echo "No test-results directory exists."
-          fi
+          mkdir -p playwright-report/test-results
+          cp -r test-results/* playwright-report/test-results/
 
       - name: 테스트 결과 업로드
         if: always()
@@ -65,10 +61,3 @@ jobs:
           publish_branch: gh-pages
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
-
-
-
-
-
-
-
