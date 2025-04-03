@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 150000, // 전체 테스트 타임아웃
+  timeout: 150_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -13,16 +13,16 @@ export default defineConfig({
     ['html', { outputFolder: 'playwright-report', open: 'never' }]
   ],
 
-  // ✅ 결과 저장 디렉토리 (전역 설정)
+  // ✅ 여기에 있어야 함! (outputDir은 최상단 설정)
   outputDir: 'test-results',
 
   use: {
     headless: true,
-    screenshot: 'on',           // 성공/실패 모두 스크린샷 저장
-    video: 'on',                // 성공/실패 모두 비디오 저장
+    screenshot: 'on',         // 성공/실패 모두 저장
+    video: 'on',              // 성공/실패 모두 저장
     launchOptions: {
       slowMo: 1000,
-    },
+    }
   },
 
   projects: [
@@ -30,18 +30,20 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 1300 }
+        viewport: { width: 1920, height: 1300 },
       },
     },
     {
       name: 'edge',
       use: {
         ...devices['Desktop Edge'],
-        viewport: { width: 1920, height: 1300 }
+        viewport: { width: 1920, height: 1300 },
       },
     }
   ],
 });
+
+
 
 
 
