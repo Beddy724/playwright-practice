@@ -66,23 +66,28 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          CHANNEL="# 여행"
+          CHANNEL="#여행"
           STATUS="${{ job.status }}"
           EMOJI="✅"
           TEXT="Playwright PASS"
 
           if [ "$STATUS" != "success" ]; then
             EMOJI="❌"
-            TEXT="Playwright Fail"
+            TEXT="Playwright FAIL"
           fi
 
-          # JSON summary에서 테스트 메타정보 추출
+          # 🔐 json-summary 파일 존재 여부 확인
+          if [ ! -f "playwright-report/json-summary.json" ]; then
+            echo "❗ json-summary.json 파일 없음. 슬랙 알림을 생략합니다."
+            exit 0
+          fi
+
           SUMMARY=$(cat playwright-report/json-summary.json)
           TOTAL=$(echo "$SUMMARY" | jq '.suites | map(.tests) | add | length')
           PASSED=$(echo "$SUMMARY" | jq '[.suites[].specs[].tests[] | select(.outcome=="expected")] | length')
           FAILED=$(echo "$SUMMARY" | jq '[.suites[].specs[].tests[] | select(.outcome=="unexpected")] | length')
 
-          BROWSER=$(npx playwright show-report --quiet --print-env | grep -m1 'browserName=' | cut -d'=' -f2)
+          BROWSER=$(jq -r '.suites[0].specs[0].tests[0].results[0].workerIndex' playwright-report/json-report.json | xargs -I{} echo "browser #{}")
 
           curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
@@ -91,3 +96,4 @@ jobs:
               \"channel\": \"$CHANNEL\",
               \"text\": \"$EMOJI $TEXT\n🧪 브라우저: $BROWSER\n📊 실행: $TOTAL, 성공: $PASSED, 실패: $FAILED\n🔗 <https://beddy724.github.io/playwright-practice/|테스트 리포트 보러가기>\"
             }"
+
