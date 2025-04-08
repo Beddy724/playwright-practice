@@ -63,3 +63,12 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
+      # ✅ 슬랙 알림 전송
+      - name: 슬랙 알림 전송
+        if: always()
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"🎯 *Playwright 테스트 완료*\n- 상태: `${{ job.status }}`\n- 리포트: https://beddy724.github.io/playwright-practice/"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  
