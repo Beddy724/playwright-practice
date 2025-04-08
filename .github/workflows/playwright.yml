@@ -66,14 +66,14 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          CHANNEL="#여행"
+          CHANNEL="# 여행"
           STATUS="${{ job.status }}"
           EMOJI="✅"
-          TEXT="Playwright 테스트가 성공했어요!"
+          TEXT="Playwright PASS"
 
           if [ "$STATUS" != "success" ]; then
             EMOJI="❌"
-            TEXT="Playwright 테스트가 실패했어요!"
+            TEXT="Playwright Fail"
           fi
 
           # JSON summary에서 테스트 메타정보 추출
