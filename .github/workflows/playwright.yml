@@ -27,9 +27,8 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --reporter=json,json-summary,html
 
-      # ✅ 리포트 내부에 test-results 복사 (스크린샷/비디오 포함)
       - name: Copy test-results into report folder
         if: always()
         run: |
@@ -52,7 +51,6 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      # ✅ GitHub Pages에 HTML 리포트 자동 배포
       - name: GitHub Pages로 HTML 리포트 배포
         if: always()
         uses: peaceiris/actions-gh-pages@v3
@@ -63,27 +61,33 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      # ✅ 슬랙 봇 메시지 전송
       - name: 슬랙 봇 메시지 전송
         if: always()
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          CHANNEL="#여행"  # 봇이 초대된 슬랙 채널명 (앞에 # 포함)
+          CHANNEL="#여행"
           STATUS="${{ job.status }}"
           EMOJI="✅"
           TEXT="Playwright 테스트가 성공했어요!"
 
           if [ "$STATUS" != "success" ]; then
-          EMOJI="❌"
-          TEXT="Playwright 테스트가 실패했어요!"
+            EMOJI="❌"
+            TEXT="Playwright 테스트가 실패했어요!"
           fi
 
-           curl -X POST https://slack.com/api/chat.postMessage \
+          # JSON summary에서 테스트 메타정보 추출
+          SUMMARY=$(cat playwright-report/json-summary.json)
+          TOTAL=$(echo "$SUMMARY" | jq '.suites | map(.tests) | add | length')
+          PASSED=$(echo "$SUMMARY" | jq '[.suites[].specs[].tests[] | select(.outcome=="expected")] | length')
+          FAILED=$(echo "$SUMMARY" | jq '[.suites[].specs[].tests[] | select(.outcome=="unexpected")] | length')
+
+          BROWSER=$(npx playwright show-report --quiet --print-env | grep -m1 'browserName=' | cut -d'=' -f2)
+
+          curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{
               \"channel\": \"$CHANNEL\",
-              \"text\": \"$EMOJI $TEXT\n👉 <https://beddy724.github.io/playwright-practice/|테스트 리포트 보러가기>\"
-             }"
-  
+              \"text\": \"$EMOJI $TEXT\n🧪 브라우저: $BROWSER\n📊 실행: $TOTAL, 성공: $PASSED, 실패: $FAILED\n🔗 <https://beddy724.github.io/playwright-practice/|테스트 리포트 보러가기>\"
+            }"
