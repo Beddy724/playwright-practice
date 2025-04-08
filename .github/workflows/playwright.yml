@@ -72,11 +72,11 @@ jobs:
           CHANNEL="#여행"  # 봇이 초대된 슬랙 채널명 (앞에 # 포함)
           STATUS="${{ job.status }}"
           EMOJI="✅"
-          TEXT="Playwright 테스트가 성공했어요!"
+          TEXT="PASS"
 
           if [ "$STATUS" != "success" ]; then
           EMOJI="❌"
-          TEXT="Playwright 테스트가 실패했어요!"
+          TEXT="FAIL"
           fi
 
            curl -X POST https://slack.com/api/chat.postMessage \
@@ -84,6 +84,6 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{
               \"channel\": \"$CHANNEL\",
-              \"text\": \"$EMOJI $TEXT\n👉 <https://beddy724.github.io/playwright-practice/|테스트 리포트 보러가기>\"
+              \"text\": \"$EMOJI $TEXT\n👉 <https://beddy724.github.io/playwright-practice/|Report 보러가기>\"
              }"
   
