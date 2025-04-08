@@ -8,19 +8,17 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
 
-  // ✅ Slack 알림용 reporter 추가됨!
   reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'playwright-report/json-report.json' }],
-    ['json-summary', { outputFile: 'playwright-report/json-summary.json' }]
+    ['html', { outputFolder: 'playwright-report'}]
   ],
 
+  // ✅ 여기에는 outputDir 빼야 오류 안 남
   use: {
     headless: true,
-    screenshot: 'on',  // 항상 저장
-    video: 'on',       // 항상 저장
+    screenshot: 'on',  // always 저장
+    video: 'on',       // always 저장
     launchOptions: {
-      slowMo: 1000,
+      slowMo: 1000,   // 느리게 실행 (디버깅 용이)
     }
   },
 
@@ -41,7 +39,6 @@ export default defineConfig({
     }
   ],
 });
-
 
 
 
