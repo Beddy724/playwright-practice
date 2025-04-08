@@ -69,7 +69,7 @@ jobs:
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          CHANNEL="#알림테스트"  # 봇이 초대된 슬랙 채널명 (앞에 # 포함)
+          CHANNEL="#여행"  # 봇이 초대된 슬랙 채널명 (앞에 # 포함)
           STATUS="${{ job.status }}"
           EMOJI="✅"
           TEXT="Playwright 테스트가 성공했어요!"
