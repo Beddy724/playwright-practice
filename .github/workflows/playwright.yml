@@ -63,12 +63,27 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      # ✅ 슬랙 알림 전송
-      - name: 슬랙 알림 전송
+      # ✅ 슬랙 봇 메시지 전송
+      - name: 슬랙 봇 메시지 전송
         if: always()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"🎯 *Playwright 테스트 완료*\n- 상태: `${{ job.status }}`\n- 리포트: https://beddy724.github.io/playwright-practice/"}' \
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          CHANNEL="#알림테스트"  # 봇이 초대된 슬랙 채널명 (앞에 # 포함)
+          STATUS="${{ job.status }}"
+          EMOJI="✅"
+          TEXT="Playwright 테스트가 성공했어요!"
 
+          if [ "$STATUS" != "success" ]; then
+          EMOJI="❌"
+          TEXT="Playwright 테스트가 실패했어요!"
+          fi
+
+           curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"channel\": \"$CHANNEL\",
+              \"text\": \"$EMOJI $TEXT\n👉 <https://beddy724.github.io/playwright-practice/|테스트 리포트 보러가기>\"
+             }"
   
