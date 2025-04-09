@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   influxdb:
@@ -18,7 +18,9 @@ services:
       - influxdb
 
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: Dockerfile  # 👈 우리가 만든 Dockerfile을 사용
     container_name: jenkins
     ports:
       - "8080:8080"
@@ -29,3 +31,4 @@ services:
 volumes:
   influxdb-storage:
   jenkins_home:
+
