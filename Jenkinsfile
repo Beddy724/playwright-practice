@@ -6,12 +6,6 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        git credentialsId: 'jadelight9724', url: 'https://github.com/Beddy724/playwright-practice.git'
-      }
-    }
-
     stage('Install dependencies') {
       steps {
         sh 'npm ci'
@@ -26,3 +20,5 @@ pipeline {
     }
   }
 }
+
+ 
