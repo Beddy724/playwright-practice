@@ -2,23 +2,23 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 150_000, // 전체 테스트 타임아웃 (2분 30초)
+  timeout: 150_000,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
 
   reporter: [
-    ['html', { outputFolder: 'playwright-report'}]
+    ['html', { outputFolder: 'playwright-report' }], // Jenkins에서도 HTML 리포트 확인 가능
+    ['json', { outputFile: 'test-results/results.json' }] // InfluxDB로 전송할 테스트 결과 파일 생성 (필수)
   ],
 
-  // ✅ 여기에는 outputDir 빼야 오류 안 남
   use: {
     headless: true,
-    screenshot: 'on',  // always 저장
-    video: 'on',       // always 저장
+    screenshot: 'on',
+    video: 'on',
     launchOptions: {
-      slowMo: 1000,   // 느리게 실행 (디버깅 용이)
+      slowMo: 1000,
     }
   },
 
@@ -39,6 +39,7 @@ export default defineConfig({
     }
   ],
 });
+
 
 
 
