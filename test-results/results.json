@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-        "commitHash": "2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14485721115"
+        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/2039fe48e1964f37142e1933cf5ff3364d501c52",
+        "commitHash": "2039fe48e1964f37142e1933cf5ff3364d501c52",
+        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14487175041"
       },
       "gitCommit": {
-        "shortHash": "2a7d9d4",
-        "hash": "2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-        "subject": "spec.ts 파일에 금액 찾기 코드 추가",
-        "body": "spec.ts 파일에 금액 찾기 코드 추가\n",
+        "shortHash": "2039fe4",
+        "hash": "2039fe48e1964f37142e1933cf5ff3364d501c52",
+        "subject": "yml 파일 수정",
+        "body": "yml 파일 수정\n",
         "author": {
           "name": "Beddy724",
           "email": "jadelight9724@gmail.com",
-          "time": 1744782637000
+          "time": 1744788321000
         },
         "committer": {
           "name": "Beddy724",
           "email": "jadelight9724@gmail.com",
-          "time": 1744782637000
+          "time": 1744788321000
         },
         "branch": "main"
       },
@@ -62,24 +62,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-            "commitHash": "2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14485721115"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/2039fe48e1964f37142e1933cf5ff3364d501c52",
+            "commitHash": "2039fe48e1964f37142e1933cf5ff3364d501c52",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14487175041"
           },
           "gitCommit": {
-            "shortHash": "2a7d9d4",
-            "hash": "2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-            "subject": "spec.ts 파일에 금액 찾기 코드 추가",
-            "body": "spec.ts 파일에 금액 찾기 코드 추가\n",
+            "shortHash": "2039fe4",
+            "hash": "2039fe48e1964f37142e1933cf5ff3364d501c52",
+            "subject": "yml 파일 수정",
+            "body": "yml 파일 수정\n",
             "author": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1744782637000
+              "time": 1744788321000
             },
             "committer": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1744782637000
+              "time": 1744788321000
             },
             "branch": "main"
           },
@@ -100,24 +100,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-            "commitHash": "2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14485721115"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/2039fe48e1964f37142e1933cf5ff3364d501c52",
+            "commitHash": "2039fe48e1964f37142e1933cf5ff3364d501c52",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14487175041"
           },
           "gitCommit": {
-            "shortHash": "2a7d9d4",
-            "hash": "2a7d9d46fa6e3fceb15056a3e480325cbc4d7e61",
-            "subject": "spec.ts 파일에 금액 찾기 코드 추가",
-            "body": "spec.ts 파일에 금액 찾기 코드 추가\n",
+            "shortHash": "2039fe4",
+            "hash": "2039fe48e1964f37142e1933cf5ff3364d501c52",
+            "subject": "yml 파일 수정",
+            "body": "yml 파일 수정\n",
             "author": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1744782637000
+              "time": 1744788321000
             },
             "committer": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1744782637000
+              "time": 1744788321000
             },
             "branch": "main"
           },
@@ -156,8 +156,8 @@
               "timeout": 150000,
               "annotations": [
                 {
-                  "type": "📦 20~40만원대 항공권",
-                  "description": "총 10건 검색되었습니다. \n\n1. 에어로케이 - 333,200원\n2. 이스타항공 - 337,800원\n3. 에어로케이 - 348,303원\n4. 에어로케이 - 348,513원\n5. 진에어 - 353,000원\n6. 이스타항공 - 353,900원\n7. 진에어 - 362,200원\n8. 제주항공 - 362,700원\n9. 진에어 - 371,400원\n10. 에어로케이 - 371,970원"
+                  "type": "📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)",
+                  "description": "총 10건 검색되었습니다. (조건: 오전 10시 이전 출발 / 오후 3시 이전 복귀)\n\n1. 제주항공 - 307,000원 (08:30 출발 / 11:00 도착)\n2. 에어로케이 - 332,438원 (08:35 출발 / 10:50 도착)\n3. 에어로케이 - 333,200원 (08:35 출발 / 10:50 도착)\n4. 이스타항공 - 353,900원 (08:00 출발 / 10:30 도착)\n5. 에어로케이 - 356,070원 (08:35 출발 / 10:50 도착)\n6. 에어로케이 - 356,961원 (08:35 출발 / 10:50 도착)\n7. 제주항공 - 362,700원 (08:30 출발 / 11:00 도착)\n8. 제주항공 - 365,700원 (08:30 출발 / 11:00 도착)\n9. 에어로케이 - 368,427원 (08:35 출발 / 10:50 도착)\n10. 에어프레미아 - 369,100원 (08:50 출발 / 11:20 도착)"
                 }
               ],
               "expectedStatus": "passed",
@@ -168,7 +168,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 58617,
+                  "duration": 63603,
                   "errors": [],
                   "stdout": [
                     {
@@ -183,7 +183,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-16T05:55:56.164Z",
+                  "startTime": "2025-04-16T07:30:26.871Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -203,7 +203,7 @@
           ],
           "id": "69e27ce62423929aaa2b-fe305aaaf56e0786aec4",
           "file": "tests/naver-flight.spec.ts",
-          "line": 3,
+          "line": 4,
           "column": 5
         },
         {
@@ -215,8 +215,8 @@
               "timeout": 150000,
               "annotations": [
                 {
-                  "type": "📦 20~40만원대 항공권",
-                  "description": "총 10건 검색되었습니다. \n\n1. 에어로케이 - 333,200원\n2. 이스타항공 - 337,800원\n3. 에어로케이 - 349,612원\n4. 진에어 - 352,592원\n5. 이스타항공 - 353,900원\n6. 에어로케이 - 358,400원\n7. 진에어 - 362,200원\n8. 제주항공 - 362,700원\n9. 진에어 - 371,400원\n10. 에어로케이 - 371,970원"
+                  "type": "📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)",
+                  "description": "총 10건 검색되었습니다. (조건: 오전 10시 이전 출발 / 오후 3시 이전 복귀)\n\n1. 제주항공 - 307,000원 (08:30 출발 / 11:00 도착)\n2. 에어로케이 - 333,200원 (08:35 출발 / 10:50 도착)\n3. 이스타항공 - 353,900원 (08:00 출발 / 10:30 도착)\n4. 에어로케이 - 358,400원 (08:35 출발 / 10:50 도착)\n5. 제주항공 - 362,700원 (08:30 출발 / 11:00 도착)\n6. 제주항공 - 365,700원 (08:30 출발 / 11:00 도착)\n7. 에어프레미아 - 369,100원 (08:50 출발 / 11:20 도착)\n8. 진에어 - 373,900원 (09:45 출발 / 12:15 도착)\n9. 제주항공 - 377,500원 (08:30 출발 / 11:00 도착)\n10. 에어프레미아 - 380,000원 (08:50 출발 / 11:20 도착)"
                 }
               ],
               "expectedStatus": "passed",
@@ -227,7 +227,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 62770,
+                  "duration": 54137,
                   "errors": [],
                   "stdout": [
                     {
@@ -242,7 +242,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-16T05:56:55.620Z",
+                  "startTime": "2025-04-16T07:31:31.310Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -262,7 +262,7 @@
           ],
           "id": "69e27ce62423929aaa2b-a0fb55b579fb3344cee1",
           "file": "tests/naver-flight.spec.ts",
-          "line": 3,
+          "line": 4,
           "column": 5
         }
       ]
@@ -270,8 +270,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-04-16T05:55:55.510Z",
-    "duration": 123065.359,
+    "startTime": "2025-04-16T07:30:26.194Z",
+    "duration": 119413.466,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,
