@@ -148,5 +148,54 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
   }
 
   await expect(page.getByRole('button', { name: '왕복 동시 선택' })).toBeVisible({ timeout: 100000 });
+
+  const filteredCards = await page.locator('i.item_num__aKbk4').all();
+
+type CardInfo = {
+  airline: string;
+  price: number;
+};
+
+const tempList: CardInfo[] = [];
+
+for (const priceEl of filteredCards) {
+  const rawPrice = await priceEl.innerText();
+  const price = parseInt(rawPrice.replace(/[^\d]/g, ''), 10);
+
+  if (price >= 200000 && price <= 400000) {
+    const cardRoot = await priceEl.evaluateHandle(el =>
+      el.closest('div[class*="concurrent_ConcurrentItemContainer"]')
+    );
+    const airlineEl = await cardRoot.asElement()?.$('b.airline_name__0Tw5w');
+
+    if (airlineEl) {
+      const airline = (await airlineEl.innerText()).trim();
+      tempList.push({ airline, price });
+    }
+  }
+}
+
+// ✅ 중복 항공사+가격 조합 제거
+const uniqueList = Array.from(
+  new Map(tempList.map(item => [`${item.airline}_${item.price}`, item])).values()
+).slice(0, 10);
+
+if (uniqueList.length > 0) {
+  const rowsText = uniqueList
+    .map((item, idx) => `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원`)
+    .join('\n');
+
+  test.info().annotations.push({
+    type: '📦 20~40만원대 항공권',
+    description: `총 ${uniqueList.length}건 검색되었습니다. \n\n${rowsText}`
+  });
+} else {
+  test.info().annotations.push({
+    type: '📦 20~40만원대 항공권',
+    description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
+  });
+}
+
+
 });
 
