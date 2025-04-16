@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { writeFileSync } from 'fs';
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import axios from 'axios';
 
 test('네이버 도쿄 항공권 검색', async ({ page }) => {
   await page.goto('https://flight.naver.com/');
@@ -192,36 +193,43 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
   
   // ✅ 중복 제거 (항공사+가격+시간 조합 기준)
   const uniqueList = Array.from(
-    new Map(tempList.map(item => [`${item.airline}_${item.price}_${item.goTime}_${item.backTime}`, item])).values()
-  ).slice(0, 10);
-  
+  new Map(tempList.map(item => [`${item.airline}_${item.price}_${item.goTime}_${item.backTime}`, item])).values()
+   ).slice(0, 10);
+
   // ✅ 결과 출력 (텍스트)
   if (uniqueList.length > 0) {
-    const rowsText = uniqueList
-      .map(
-        (item, idx) =>
-          `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원 (${item.goTime} 출발 / ${item.backTime} 도착)`
-      )
-      .join('\n');
-  
-    test.info().annotations.push({
-      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
-      description: `총 ${uniqueList.length}건 검색되었습니다. (조건: 오전 10시 이전 출발 / 오후 3시 이전 복귀)\n\n${rowsText}`
-    });
-  } else {
-    test.info().annotations.push({
-      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
-      description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
-    });
+   const rowsText = uniqueList
+    .map(
+      (item, idx) =>
+        `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원 (${item.goTime} 출발 / ${item.backTime} 도착)`
+    )
+    .join('\n');
 
-    // ✅ 슬랙 알림에 최저가 추출
-    const lowest = uniqueList.reduce((min, item) => (item.price < min.price ? item : min), uniqueList[0]);
+   test.info().annotations.push({
+    type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+    description: `총 ${uniqueList.length}건 검색되었습니다. (조건: 오전 10시 이전 출발 / 오후 3시 이전 복귀)\n\n${rowsText}`
+  });
 
-   const slackText = `${lowest.airline} - ${lowest.price.toLocaleString()}원\n🕒 출발: ${lowest.goTime} / 도착: ${lowest.backTime}`;
-   writeFileSync('test-results/lowest-flight.txt', slackText);
+  // ✅ 슬랙 알림용 최저가 추출
+  const lowest = uniqueList.reduce((min, item) => (item.price < min.price ? item : min), uniqueList[0]);
+
+  const slackText =
+    `✈️ *최저가 도쿄 항공권 안내!*\n\n` +
+    `*항공사:* ${lowest.airline}\n` +
+    `*가격:* ${lowest.price.toLocaleString()}원\n` +
+    `*출발:* ${lowest.goTime} / *도착:* ${lowest.backTime}`;
+
+  if (!existsSync('test-results')) {
+    mkdirSync('test-results', { recursive: true });
   }
 
+  writeFileSync('test-results/lowest-flight.txt', slackText);
 
-
+} else {
+  test.info().annotations.push({
+    type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+    description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
+  });
+}
   });
 

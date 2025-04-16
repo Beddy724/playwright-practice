@@ -27,14 +27,14 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        viewport: { width: 1920, height: 5000 },
+        viewport: { width: 1920, height: 1300 },
       },
     },
     {
       name: 'edge',
       use: {
         ...devices['Desktop Edge'],
-        viewport: { width: 1920, height: 5000 },
+        viewport: { width: 1920, height: 1300 },
       },
     }
   ],
