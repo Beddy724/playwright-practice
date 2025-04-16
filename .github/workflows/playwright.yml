@@ -29,7 +29,7 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
-      # ✅ 리포트 내부에 test-results 복사 (스크린샷/비디오 포함)
+      # ✅ test-results에 저장된 스크린샷/비디오 복사
       - name: Copy test-results into report folder
         if: always()
         run: |
@@ -63,27 +63,33 @@ jobs:
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
-      # ✅ 슬랙 봇 메시지 전송
+      # ✅ 슬랙 봇 메시지 전송 (최저가 항공권 정보 포함)
       - name: 슬랙 봇 메시지 전송
         if: always()
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         run: |
-          CHANNEL="#여행"  # 봇이 초대된 슬랙 채널명 (앞에 # 포함)
+          CHANNEL="#여행"
           STATUS="${{ job.status }}"
           EMOJI="✅"
           TEXT="PASS"
 
           if [ "$STATUS" != "success" ]; then
-          EMOJI="❌"
-          TEXT="FAIL"
+            EMOJI="❌"
+            TEXT="FAIL"
           fi
 
-           curl -X POST https://slack.com/api/chat.postMessage \
+          FLIGHT_INFO="❓ 최저가 항공권 정보를 찾을 수 없습니다."
+          if [ -f test-results/lowest-flight.txt ]; then
+            FLIGHT_INFO=$(cat test-results/lowest-flight.txt)
+          fi
+
+          curl -X POST https://slack.com/api/chat.postMessage \
             -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
             -H "Content-Type: application/json" \
             -d "{
               \"channel\": \"$CHANNEL\",
-              \"text\": \"$EMOJI $TEXT\n👉 <https://beddy724.github.io/playwright-practice/|Report 보러가기>\"
-             }"
+              \"text\": \"$EMOJI $TEXT\n\n✈️ 최저가 항공권:\n$FLIGHT_INFO\n\n👉 <https://beddy724.github.io/playwright-practice/|Report 보러가기>\"
+            }"
+
   
