@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-
+import { writeFileSync } from 'fs';
 
 test('네이버 도쿄 항공권 검색', async ({ page }) => {
   await page.goto('https://flight.naver.com/');
@@ -213,7 +213,15 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
       type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
       description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
     });
+
+    // ✅ 슬랙 알림에 최저가 추출
+    const lowest = uniqueList.reduce((min, item) => (item.price < min.price ? item : min), uniqueList[0]);
+
+   const slackText = `${lowest.airline} - ${lowest.price.toLocaleString()}원\n🕒 출발: ${lowest.goTime} / 도착: ${lowest.backTime}`;
+   writeFileSync('test-results/lowest-flight.txt', slackText);
   }
+
+
 
   });
 

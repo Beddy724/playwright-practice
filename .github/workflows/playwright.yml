@@ -89,7 +89,7 @@ jobs:
             -H "Content-Type: application/json" \
             -d "{
               \"channel\": \"$CHANNEL\",
-              \"text\": \"$EMOJI $TEXT\n\n✈️ 최저가 항공권:\n$FLIGHT_INFO\n\n👉 <https://beddy724.github.io/playwright-practice/|Report 보러가기>\"
+              \"text\": \"$EMOJI $TEXT\\n\\n✈️ 최저가 항공권:\\n$FLIGHT_INFO\\n\\n👉 <https://beddy724.github.io/playwright-practice/|Report 보러가기>\"
             }"
 
   
