@@ -1,43 +1,44 @@
 pipeline {
   agent any
 
-  triggers {
-    cron('H H/3 * * *')  // 매 3시간마다 실행
+  tools {
+    nodejs "NodeJS"
   }
 
-  environment {
-    SLACK_TOKEN = credentials('slack-bot-token')
+  triggers {
+    cron('H */3 * * *')  // 매 3시간마다 실행 (랜덤 offset H)
   }
 
   stages {
-    stage('Playwright Test') {
+    stage('Install dependencies') {
       steps {
+        sh 'npm ci'
+      }
+    }
+
+    stage('Run Playwright tests') {
+      steps {
+        sh 'npx playwright install --with-deps'
         sh 'npx playwright test'
       }
     }
 
-    stage('Slack 알림') {
-      when {
-        always()
-      }
+    stage('Print lowest price (Slack 알림용)') {
       steps {
         script {
-          def flightInfo = '❓ 최저가 항공권 정보를 찾을 수 없습니다.'
-          def file = 'test-results/lowest-flight.txt'
-          if (fileExists(file)) {
-            flightInfo = readFile(file).trim()
+          def summaryFile = 'test-results/lowest-flight.txt'
+          if (fileExists(summaryFile)) {
+            def content = readFile(summaryFile).trim()
+            echo "\n📦 최저가 알림 요약:\n${content}\n"
+          } else {
+            echo "❗ 최저가 파일이 존재하지 않음: ${summaryFile}"
           }
-
-          slackSend(
-            tokenCredentialId: 'slack-bot-token',
-            channel: '#여행',
-            message: ":white_check_mark: *도쿄 항공권 자동화 완료*\n\n${flightInfo}\n\n:arrow_right: <https://beddy724.github.io/playwright-practice/|Report 보러가기>"
-          )
         }
       }
     }
   }
 }
+
 
 
 
