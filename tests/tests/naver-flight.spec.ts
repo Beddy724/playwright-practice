@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import axios from 'axios';
+import { ElementHandle } from '@playwright/test';
 
 test('네이버 도쿄 항공권 검색', async ({ page }) => {
   await page.goto('https://flight.naver.com/');
@@ -157,79 +158,94 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     airline: string;
     price: number;
     goTime: string;
+    goArrive: string;
     backTime: string;
+    backArrive: string;
   };
-  
+
   const tempList: CardInfo[] = [];
-  
+
   for (const priceEl of filteredCards) {
     const rawPrice = await priceEl.innerText();
     const price = parseInt(rawPrice.replace(/[^\d]/g, ''), 10);
-  
-    if (price >= 200000 && price <= 400000) {   // 금액 20만원 ~ 40만원 사이
+
+    if (price >= 200000 && price <= 400000) {
       const cardRoot = await priceEl.evaluateHandle(el =>
         el.closest('div[class*="concurrent_ConcurrentItemContainer"]')
       );
-  
+
       const airlineEl = await cardRoot.asElement()?.$('b.airline_name__0Tw5w');
-      const timeEls = await cardRoot.asElement()?.$$('b.route_time__xWu7a');
-  
-      if (airlineEl && timeEls && timeEls.length >= 2) {
+      const airportSpans = await cardRoot.asElement()?.$$('span.route_airport__tBD9o');
+
+      if (airlineEl && airportSpans && airportSpans.length >= 4) {
         const airline = (await airlineEl.innerText()).trim();
-        const goTime = await timeEls[0].innerText();    // 가는 시간
-        const backTime = await timeEls[1].innerText();  // 오는 시간
-  
+
+        const getTimeByCode = async (code: string, spans: ElementHandle<Element>[]) => {
+          for (const span of spans) {
+            const codeEl = await span.$('i.route_code__S07WE');
+            const timeEl = await span.$('b.route_time__xWu7a');
+            if (codeEl && timeEl) {
+              const codeText = await codeEl.innerText();
+              if (codeText === code) {
+                return await timeEl.innerText();
+              }
+            }
+          }
+          return '';
+        };
+
+        const goTime = await getTimeByCode('ICN', airportSpans);
+        const goArrive = await getTimeByCode('NRT', airportSpans);
+        const backTime = await getTimeByCode('NRT', airportSpans.slice(2));
+        const backArrive = await getTimeByCode('ICN', airportSpans.slice(2));
+
         const toMinutes = (t: string) => {
           const [h, m] = t.split(':').map(Number);
           return h * 60 + m;
         };
-  
-        if (toMinutes(goTime) < 600 && toMinutes(backTime) < 900) {
-          tempList.push({ airline, price, goTime, backTime });
+
+        if (toMinutes(goTime) < 540 && toMinutes(backTime) < 840) {
+          tempList.push({ airline, price, goTime, goArrive, backTime, backArrive });
         }
       }
     }
   }
-  
-  // ✅ 중복 제거 (항공사+가격+시간 조합 기준)
-  const uniqueList = Array.from(
-  new Map(tempList.map(item => [`${item.airline}_${item.price}_${item.goTime}_${item.backTime}`, item])).values()
-   ).slice(0, 10);
 
-  // ✅ 결과 출력 (텍스트)
-  if (uniqueList.length > 0) {
-   const rowsText = uniqueList
-    .map(
-      (item, idx) =>
-        `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원 (${item.goTime} 출발 / ${item.backTime} 도착)`
-    )
-    .join('\n');
+  const filteredList = Array.from(
+    new Map(tempList.map(item => [`${item.airline}_${item.price}_${item.goTime}_${item.backTime}`, item])).values()
+  ).slice(0, 10);
 
-   test.info().annotations.push({
-    type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
-    description: `총 ${uniqueList.length}건 검색되었습니다. (조건: 오전 10시 이전 출발 / 오후 3시 이전 복귀)\n\n${rowsText}`
-  });
+  if (filteredList.length > 0) {
+    const rowsText = filteredList
+      .map(
+        (item, idx) =>
+          `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원\n   🛫 ${item.goTime} (인천 출발) / ${item.goArrive} (나리타 도착)\n   🛬 ${item.backTime} (나리타 출발) / ${item.backArrive} (인천 도착)`
+      )
+      .join('\n');
 
-  // ✅ 슬랙 알림용 최저가 추출
-  const lowest = uniqueList.reduce((min, item) => (item.price < min.price ? item : min), uniqueList[0]);
+    test.info().annotations.push({
+      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+      description: `총 ${filteredList.length}건 검색되었습니다. (조건: 오전 9시 이전 인천 출발 / 오후 2시 이전 나리타 출발)\n\n${rowsText}`
+    });
 
-  const slackText =
-    `✈️ *최저가 도쿄 항공권 안내!*\n\n` +
-    `*항공사:* ${lowest.airline}\n` +
-    `*가격:* ${lowest.price.toLocaleString()}원\n` +
-    `*출발:* ${lowest.goTime} / *도착:* ${lowest.backTime}`;
+    // ✅ 슬랙 알림용 최저가 추출
+    const lowest = filteredList.reduce((min, item) => (item.price < min.price ? item : min), filteredList[0]);
 
-  if (!existsSync('test-results')) {
-    mkdirSync('test-results', { recursive: true });
+    const slackText =
+      `✈️ *최저가 도쿄 항공권 안내!*\n\n` +
+      `*항공사:* ${lowest.airline}\n` +
+      `*가격:* ${lowest.price.toLocaleString()}원\n` +
+      `*출발:* ${lowest.goTime} / *도착:* ${lowest.backTime}`;
+
+    if (!existsSync('test-results')) {
+      mkdirSync('test-results', { recursive: true });
+    }
+
+    writeFileSync('test-results/lowest-flight.txt', slackText);
+  } else {
+    test.info().annotations.push({
+      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+      description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
+    });
   }
-
-  writeFileSync('test-results/lowest-flight.txt', slackText);
-
-} else {
-  test.info().annotations.push({
-    type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
-    description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
-  });
-}
-  });
-
+});
