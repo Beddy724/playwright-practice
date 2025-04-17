@@ -232,10 +232,12 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     const lowest = filteredList.reduce((min, item) => (item.price < min.price ? item : min), filteredList[0]);
 
     const slackText =
-      `✈️ *최저가 도쿄 항공권 안내!*\n\n` +
-      `*항공사:* ${lowest.airline}\n` +
-      `*가격:* ${lowest.price.toLocaleString()}원\n` +
-      `*출발:* ${lowest.goTime} / *도착:* ${lowest.backTime}`;
+     `✈️ *최저가 도쿄 항공권 안내!*\n\n` +
+     `*항공사:* ${lowest.airline}\n` +
+     `*가격:* ${lowest.price.toLocaleString()}원\n` +
+     `*인천 출발:* ${lowest.goTime} / *나리타 도착:* ${lowest.goArrive}\n` +
+     `*나리타 출발:* ${lowest.backTime} / *인천 도착:* ${lowest.backArrive}`;
+
 
     if (!existsSync('test-results')) {
       mkdirSync('test-results', { recursive: true });
