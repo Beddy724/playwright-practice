@@ -35,40 +35,38 @@ pipeline {
             def content = readFile(summaryFile).trim()
             echo "\n📦 최저가 알림 요약:\n${content}\n"
 
-            // ✅ Slack 메시지 - Block 스타일
-            def payload = """
-              {
-                "channel": "#여행",
-                "blocks": [
-                  {
-                    "type": "header",
-                    "text": {
-                      "type": "plain_text",
-                      "text": "✈️ 도쿄 항공권 최저가 알림!",
-                      "emoji": true
-                    }
-                  },
-                  {
-                    "type": "section",
-                    "text": {
-                      "type": "mrkdwn",
-                      "text": "${content.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')}"
-                    }
-                  },
-                  {
-                    "type": "context",
-                    "elements": [
-                      {
-                        "type": "mrkdwn",
-                        "text": "<https://beddy724.github.io/playwright-practice/|🔗 HTML 리포트 보러가기>"
-                      }
-                    ]
+            // ✅ Slack 메시지 Block payload
+            def escapedContent = content.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
+            def payload = """{
+              "channel": "#여행",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "✈️ 도쿄 항공권 최저가 알림!",
+                    "emoji": true
                   }
-                ]
-              }
-            """.stripIndent()
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${escapedContent}"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "<https://beddy724.github.io/playwright-practice/|🔗 HTML 리포트 보러가기>"
+                    }
+                  ]
+                }
+              ]
+            }"""
 
-            // ✅ Slack 메시지 전송
             writeFile file: 'slack-payload.json', text: payload
             sh 'curl -X POST -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" -H "Content-Type: application/json" --data @slack-payload.json https://slack.com/api/chat.postMessage'
           } else {
@@ -79,6 +77,7 @@ pipeline {
     }
   }
 }
+
 
 
 
