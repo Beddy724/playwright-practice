@@ -6,7 +6,7 @@ pipeline {
   }
 
   environment {
-    SLACK_BOT_TOKEN = credentials('omSFZ2vIYKgF9T1fkfJERSwQ')
+    SLACK_BOT_TOKEN = credentials('slack-bot-token')
   }
 
   triggers {
