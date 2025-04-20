@@ -44,7 +44,7 @@ pipeline {
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": "✈️ 도쿄 항공권 최저가 알림!",
+                    "text": "✈️ 도쿄 항공권 최저가 알림",
                     "emoji": true
                   }
                 },
