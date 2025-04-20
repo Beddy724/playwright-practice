@@ -27,53 +27,52 @@ pipeline {
       }
     }
 
-    stage('Print lowest price (Slack 알림용)') {
-      steps {
-        script {
-          def summaryFile = 'test-results/lowest-flight.txt'
-          if (fileExists(summaryFile)) {
-            def content = readFile(summaryFile).trim()
-            echo "\n📦 최저가 알림 요약:\n${content}\n"
+    stage('Slack 알림') {
+    steps {
+    script {
+      def slackFile = 'test-results/slack-message.txt'
+      def message = ''
 
-            // ✅ Slack 메시지 Block payload
-            def escapedContent = content.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
-            def payload = """{
-              "channel": "#여행",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "✈️ 도쿄 항공권 최저가 알림",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "${escapedContent}"
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "<https://beddy724.github.io/playwright-practice/|🔗 HTML 리포트 보러가기>"
-                    }
-                  ]
-                }
-              ]
-            }"""
-
-            writeFile file: 'slack-payload.json', text: payload
-            sh 'curl -X POST -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" -H "Content-Type: application/json" --data @slack-payload.json https://slack.com/api/chat.postMessage'
-          } else {
-            echo "❗ 최저가 파일이 존재하지 않음: ${summaryFile}"
-          }
-        }
+      if (fileExists(slackFile)) {
+        message = readFile(slackFile).trim()
+      } else {
+        message = '❓ Playwright 테스트에서 슬랙 메시지가 생성되지 않았습니다.'
       }
+
+      def escaped = message.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
+
+      def payload = """{
+        "channel": "#여행",
+        "blocks": [
+          {
+            "type": "header",
+            "text": {
+              "type": "plain_text",
+              "text": "✈️ 도쿄 항공권 자동 검색 결과",
+              "emoji": true
+            }
+          },
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "${escaped}"
+            }
+          },
+          {
+            "type": "context",
+            "elements": [
+              {
+                "type": "mrkdwn",
+                "text": "<https://beddy724.github.io/playwright-practice/|🔗 HTML 리포트 보러가기>"
+              }
+            ]
+          }
+        ]
+      }"""
+
+      writeFile file: 'slack.json', text: payload
+      sh 'curl -X POST -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" -H "Content-Type: application/json" --data @slack.json https://slack.com/api/chat.postMessage'
     }
   }
 }
