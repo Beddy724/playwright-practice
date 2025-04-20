@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/6af187d244e266c154f0c5ac66c17118ccc05e47",
-        "commitHash": "6af187d244e266c154f0c5ac66c17118ccc05e47",
-        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560080685"
+        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/98866872d01cccbaef645563af4b4d8c83d213da",
+        "commitHash": "98866872d01cccbaef645563af4b4d8c83d213da",
+        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560198553"
       },
       "gitCommit": {
-        "shortHash": "6af187d",
-        "hash": "6af187d244e266c154f0c5ac66c17118ccc05e47",
-        "subject": "젠킨스 빌드 실행 재확인",
-        "body": "젠킨스 빌드 실행 재확인\n",
+        "shortHash": "9886687",
+        "hash": "98866872d01cccbaef645563af4b4d8c83d213da",
+        "subject": "젠킨스 파일 내 슬랙 토큰 봇 코드 수정",
+        "body": "젠킨스 파일 내 슬랙 토큰 봇 코드 수정\n",
         "author": {
           "name": "Beddy724",
           "email": "jadelight9724@gmail.com",
-          "time": 1745156628000
+          "time": 1745157670000
         },
         "committer": {
           "name": "Beddy724",
           "email": "jadelight9724@gmail.com",
-          "time": 1745156628000
+          "time": 1745157670000
         },
         "branch": "main"
       },
@@ -62,24 +62,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/6af187d244e266c154f0c5ac66c17118ccc05e47",
-            "commitHash": "6af187d244e266c154f0c5ac66c17118ccc05e47",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560080685"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/98866872d01cccbaef645563af4b4d8c83d213da",
+            "commitHash": "98866872d01cccbaef645563af4b4d8c83d213da",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560198553"
           },
           "gitCommit": {
-            "shortHash": "6af187d",
-            "hash": "6af187d244e266c154f0c5ac66c17118ccc05e47",
-            "subject": "젠킨스 빌드 실행 재확인",
-            "body": "젠킨스 빌드 실행 재확인\n",
+            "shortHash": "9886687",
+            "hash": "98866872d01cccbaef645563af4b4d8c83d213da",
+            "subject": "젠킨스 파일 내 슬랙 토큰 봇 코드 수정",
+            "body": "젠킨스 파일 내 슬랙 토큰 봇 코드 수정\n",
             "author": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1745156628000
+              "time": 1745157670000
             },
             "committer": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1745156628000
+              "time": 1745157670000
             },
             "branch": "main"
           },
@@ -100,24 +100,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/6af187d244e266c154f0c5ac66c17118ccc05e47",
-            "commitHash": "6af187d244e266c154f0c5ac66c17118ccc05e47",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560080685"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/98866872d01cccbaef645563af4b4d8c83d213da",
+            "commitHash": "98866872d01cccbaef645563af4b4d8c83d213da",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560198553"
           },
           "gitCommit": {
-            "shortHash": "6af187d",
-            "hash": "6af187d244e266c154f0c5ac66c17118ccc05e47",
-            "subject": "젠킨스 빌드 실행 재확인",
-            "body": "젠킨스 빌드 실행 재확인\n",
+            "shortHash": "9886687",
+            "hash": "98866872d01cccbaef645563af4b4d8c83d213da",
+            "subject": "젠킨스 파일 내 슬랙 토큰 봇 코드 수정",
+            "body": "젠킨스 파일 내 슬랙 토큰 봇 코드 수정\n",
             "author": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1745156628000
+              "time": 1745157670000
             },
             "committer": {
               "name": "Beddy724",
               "email": "jadelight9724@gmail.com",
-              "time": 1745156628000
+              "time": 1745157670000
             },
             "branch": "main"
           },
@@ -168,7 +168,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 60859,
+                  "duration": 64378,
                   "errors": [],
                   "stdout": [
                     {
@@ -183,7 +183,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-20T13:45:28.192Z",
+                  "startTime": "2025-04-20T14:02:46.857Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -227,7 +227,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 60806,
+                  "duration": 61718,
                   "errors": [],
                   "stdout": [
                     {
@@ -242,7 +242,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-20T13:46:29.930Z",
+                  "startTime": "2025-04-20T14:03:53.167Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -270,8 +270,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-04-20T13:45:27.502Z",
-    "duration": 123412.194,
+    "startTime": "2025-04-20T14:02:46.135Z",
+    "duration": 128939.153,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,
