@@ -254,17 +254,16 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
   
     // ✅ 조건에 상관없이 InfluxDB 전송
     console.log('📡 Influx 전송 준비:', influxAirline, influxPrice);
-
     try {
     const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
     await axios.post(
-    'http://localhost:8086/write?db=qa_results',
+     'http://localhost:8086/write?db=qa_results',
     influxData,
     { headers: { 'Content-Type': 'application/octet-stream' } }
-    );
-   } catch (err) {
-    console.error('⚠️ InfluxDB 전송 실패:', err.message);
-   }
+   );
+  } catch (err) {
+    console.error('⚠️ Influx 전송 실패:', err.message);
+  }
   
   } else {
     test.info().annotations.push({
