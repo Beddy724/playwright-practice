@@ -220,9 +220,8 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
 
   if (filteredList.length > 0) {
     const rowsText = filteredList
-      .map(
-        (item, idx) =>
-          `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원\n   🛫 ${item.goTime} (인천 출발) / ${item.goArrive} (나리타 도착)\n   🛬 ${item.backTime} (나리타 출발) / ${item.backArrive} (인천 도착)`
+    .map((item, idx) =>
+        `${idx + 1}. ${item.airline} - ${item.price.toLocaleString()}원\n   🛫 ${item.goTime} (인천 출발) / ${item.goArrive} (나리타 도착)\n   🛬 ${item.backTime} (나리타 출발) / ${item.backArrive} (인천 도착)`
       )
       .join('\n');
 
@@ -251,24 +250,23 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     }
   
     writeFileSync('test-results/lowest-flight.txt', slackText);
+    } else {
+    test.info().annotations.push({
+      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+      description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
+     });
+    }
   
-    // ✅ 조건에 상관없이 InfluxDB 전송
+    // ✅ 조건에 관계없이 항상 Influx 전송
     console.log('📡 Influx 전송 준비:', influxAirline, influxPrice);
     try {
     const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
     await axios.post(
-     'http://localhost:8086/write?db=qa_results',
+    'http://localhost:8086/write?db=qa_results',
     influxData,
     { headers: { 'Content-Type': 'application/octet-stream' } }
-   );
+  );
   } catch (err) {
     console.error('⚠️ Influx 전송 실패:', err.message);
-  }
-  
-  } else {
-    test.info().annotations.push({
-      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
-      description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
-    });
-  }
+} 
 });
