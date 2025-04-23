@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/c7bae336cd9504790e57ff6bdd5ee58da8878574",
-        "commitHash": "c7bae336cd9504790e57ff6bdd5ee58da8878574",
-        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14617540593"
+        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/a241563f07f93a483effd5c0f9e3963edbd4f44c",
+        "commitHash": "a241563f07f93a483effd5c0f9e3963edbd4f44c",
+        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14617800203"
       },
       "gitCommit": {
-        "shortHash": "c7bae33",
-        "hash": "c7bae336cd9504790e57ff6bdd5ee58da8878574",
-        "subject": "DB 재확인",
-        "body": "DB 재확인\n",
+        "shortHash": "a241563",
+        "hash": "a241563f07f93a483effd5c0f9e3963edbd4f44c",
+        "subject": "DB 코드 수정",
+        "body": "DB 코드 수정\n",
         "author": {
           "name": "장혜린",
           "email": "jadelight9724@gmail.com",
-          "time": 1745409522000
+          "time": 1745410320000
         },
         "committer": {
           "name": "장혜린",
           "email": "jadelight9724@gmail.com",
-          "time": 1745409522000
+          "time": 1745410320000
         },
         "branch": "main"
       },
@@ -62,24 +62,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/c7bae336cd9504790e57ff6bdd5ee58da8878574",
-            "commitHash": "c7bae336cd9504790e57ff6bdd5ee58da8878574",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14617540593"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/a241563f07f93a483effd5c0f9e3963edbd4f44c",
+            "commitHash": "a241563f07f93a483effd5c0f9e3963edbd4f44c",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14617800203"
           },
           "gitCommit": {
-            "shortHash": "c7bae33",
-            "hash": "c7bae336cd9504790e57ff6bdd5ee58da8878574",
-            "subject": "DB 재확인",
-            "body": "DB 재확인\n",
+            "shortHash": "a241563",
+            "hash": "a241563f07f93a483effd5c0f9e3963edbd4f44c",
+            "subject": "DB 코드 수정",
+            "body": "DB 코드 수정\n",
             "author": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745409522000
+              "time": 1745410320000
             },
             "committer": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745409522000
+              "time": 1745410320000
             },
             "branch": "main"
           },
@@ -100,24 +100,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/c7bae336cd9504790e57ff6bdd5ee58da8878574",
-            "commitHash": "c7bae336cd9504790e57ff6bdd5ee58da8878574",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14617540593"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/a241563f07f93a483effd5c0f9e3963edbd4f44c",
+            "commitHash": "a241563f07f93a483effd5c0f9e3963edbd4f44c",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14617800203"
           },
           "gitCommit": {
-            "shortHash": "c7bae33",
-            "hash": "c7bae336cd9504790e57ff6bdd5ee58da8878574",
-            "subject": "DB 재확인",
-            "body": "DB 재확인\n",
+            "shortHash": "a241563",
+            "hash": "a241563f07f93a483effd5c0f9e3963edbd4f44c",
+            "subject": "DB 코드 수정",
+            "body": "DB 코드 수정\n",
             "author": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745409522000
+              "time": 1745410320000
             },
             "committer": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745409522000
+              "time": 1745410320000
             },
             "branch": "main"
           },
@@ -168,7 +168,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 76092,
+                  "duration": 94149,
                   "errors": [],
                   "stdout": [
                     {
@@ -183,7 +183,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-23T12:00:13.714Z",
+                  "startTime": "2025-04-23T12:12:34.491Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -227,7 +227,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 77557,
+                  "duration": 88987,
                   "errors": [],
                   "stdout": [
                     {
@@ -242,7 +242,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-23T12:01:30.779Z",
+                  "startTime": "2025-04-23T12:14:09.637Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -270,8 +270,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-04-23T12:00:12.942Z",
-    "duration": 155587.867,
+    "startTime": "2025-04-23T12:12:33.650Z",
+    "duration": 185187.749,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,
