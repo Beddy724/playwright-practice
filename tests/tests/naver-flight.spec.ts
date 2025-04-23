@@ -214,6 +214,9 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
   const filteredList = Array.from(
     new Map(tempList.map(item => [`${item.airline}_${item.price}_${item.goTime}_${item.backTime}`, item])).values()
   ).slice(0, 10);
+  
+  let influxPrice = 0;
+  let influxAirline = 'none';
 
   if (filteredList.length > 0) {
     const rowsText = filteredList
@@ -239,11 +242,24 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
      `*나리타 출발:* ${lowest.backTime} / *인천 도착:* ${lowest.backArrive}`;
 
 
-    if (!existsSync('test-results')) {
+     if (!existsSync('test-results')) {
       mkdirSync('test-results', { recursive: true });
     }
-
+  
     writeFileSync('test-results/lowest-flight.txt', slackText);
+  
+    // ✅ 조건에 상관없이 InfluxDB 전송
+    try {
+    const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
+    await axios.post(
+    'http://localhost:8086/write?db=qa_results',
+    influxData,
+    { headers: { 'Content-Type': 'application/octet-stream' } }
+    );
+  } catch (err) {
+    console.error('⚠️ InfluxDB 전송 실패:', err.message);
+  }
+  
   } else {
     test.info().annotations.push({
       type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
