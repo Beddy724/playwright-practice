@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-        "commitHash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14612739200"
+        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/141fa40f614557dc8b591678b5f5c3d590327411",
+        "commitHash": "141fa40f614557dc8b591678b5f5c3d590327411",
+        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14616666701"
       },
       "gitCommit": {
-        "shortHash": "cbacbba",
-        "hash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-        "subject": "개발환경 재설치 겸 확인",
-        "body": "개발환경 재설치 겸 확인\n",
+        "shortHash": "141fa40",
+        "hash": "141fa40f614557dc8b591678b5f5c3d590327411",
+        "subject": "ts 파일 코드 수정",
+        "body": "ts 파일 코드 수정\n",
         "author": {
           "name": "장혜린",
           "email": "jadelight9724@gmail.com",
-          "time": 1745394382000
+          "time": 1745406649000
         },
         "committer": {
           "name": "장혜린",
           "email": "jadelight9724@gmail.com",
-          "time": 1745394382000
+          "time": 1745406649000
         },
         "branch": "main"
       },
@@ -62,24 +62,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-            "commitHash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14612739200"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/141fa40f614557dc8b591678b5f5c3d590327411",
+            "commitHash": "141fa40f614557dc8b591678b5f5c3d590327411",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14616666701"
           },
           "gitCommit": {
-            "shortHash": "cbacbba",
-            "hash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-            "subject": "개발환경 재설치 겸 확인",
-            "body": "개발환경 재설치 겸 확인\n",
+            "shortHash": "141fa40",
+            "hash": "141fa40f614557dc8b591678b5f5c3d590327411",
+            "subject": "ts 파일 코드 수정",
+            "body": "ts 파일 코드 수정\n",
             "author": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745394382000
+              "time": 1745406649000
             },
             "committer": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745394382000
+              "time": 1745406649000
             },
             "branch": "main"
           },
@@ -100,24 +100,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-            "commitHash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14612739200"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/141fa40f614557dc8b591678b5f5c3d590327411",
+            "commitHash": "141fa40f614557dc8b591678b5f5c3d590327411",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14616666701"
           },
           "gitCommit": {
-            "shortHash": "cbacbba",
-            "hash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
-            "subject": "개발환경 재설치 겸 확인",
-            "body": "개발환경 재설치 겸 확인\n",
+            "shortHash": "141fa40",
+            "hash": "141fa40f614557dc8b591678b5f5c3d590327411",
+            "subject": "ts 파일 코드 수정",
+            "body": "ts 파일 코드 수정\n",
             "author": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745394382000
+              "time": 1745406649000
             },
             "committer": {
               "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745394382000
+              "time": 1745406649000
             },
             "branch": "main"
           },
@@ -168,7 +168,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 78455,
+                  "duration": 78948,
                   "errors": [],
                   "stdout": [
                     {
@@ -183,7 +183,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-23T07:47:36.940Z",
+                  "startTime": "2025-04-23T11:11:47.920Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -227,7 +227,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 71447,
+                  "duration": 77723,
                   "errors": [],
                   "stdout": [
                     {
@@ -242,7 +242,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-23T07:48:56.262Z",
+                  "startTime": "2025-04-23T11:13:08.058Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -270,8 +270,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-04-23T07:47:36.246Z",
-    "duration": 151653.364,
+    "startTime": "2025-04-23T11:11:47.126Z",
+    "duration": 158813.995,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,
