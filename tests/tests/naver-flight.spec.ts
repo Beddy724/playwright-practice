@@ -262,7 +262,7 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     try {
     const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
     await axios.post(
-    'http://localhost:8086/write?db=qa_results',
+    'http://influxdb:8086/write?db=qa_results',
     influxData,
     { headers: { 'Content-Type': 'application/octet-stream' } }
   );
