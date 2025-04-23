@@ -12,24 +12,24 @@
     "maxFailures": 0,
     "metadata": {
       "ci": {
-        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/c27930dad933b3ad7c97a224678e78b763cdc56b",
-        "commitHash": "c27930dad933b3ad7c97a224678e78b763cdc56b",
-        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560636766"
+        "commitHref": "https://github.com/Beddy724/playwright-practice/commit/cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+        "commitHash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+        "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14612739200"
       },
       "gitCommit": {
-        "shortHash": "c27930d",
-        "hash": "c27930dad933b3ad7c97a224678e78b763cdc56b",
-        "subject": "젠킨스 파일 슬랙알림 코드 수정",
-        "body": "젠킨스 파일 슬랙알림 코드 수정\n",
+        "shortHash": "cbacbba",
+        "hash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+        "subject": "개발환경 재설치 겸 확인",
+        "body": "개발환경 재설치 겸 확인\n",
         "author": {
-          "name": "Beddy724",
+          "name": "장혜린",
           "email": "jadelight9724@gmail.com",
-          "time": 1745160967000
+          "time": 1745394382000
         },
         "committer": {
-          "name": "Beddy724",
+          "name": "장혜린",
           "email": "jadelight9724@gmail.com",
-          "time": 1745160967000
+          "time": 1745394382000
         },
         "branch": "main"
       },
@@ -62,24 +62,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/c27930dad933b3ad7c97a224678e78b763cdc56b",
-            "commitHash": "c27930dad933b3ad7c97a224678e78b763cdc56b",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560636766"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+            "commitHash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14612739200"
           },
           "gitCommit": {
-            "shortHash": "c27930d",
-            "hash": "c27930dad933b3ad7c97a224678e78b763cdc56b",
-            "subject": "젠킨스 파일 슬랙알림 코드 수정",
-            "body": "젠킨스 파일 슬랙알림 코드 수정\n",
+            "shortHash": "cbacbba",
+            "hash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+            "subject": "개발환경 재설치 겸 확인",
+            "body": "개발환경 재설치 겸 확인\n",
             "author": {
-              "name": "Beddy724",
+              "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745160967000
+              "time": 1745394382000
             },
             "committer": {
-              "name": "Beddy724",
+              "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745160967000
+              "time": 1745394382000
             },
             "branch": "main"
           },
@@ -100,24 +100,24 @@
         "retries": 2,
         "metadata": {
           "ci": {
-            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/c27930dad933b3ad7c97a224678e78b763cdc56b",
-            "commitHash": "c27930dad933b3ad7c97a224678e78b763cdc56b",
-            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14560636766"
+            "commitHref": "https://github.com/Beddy724/playwright-practice/commit/cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+            "commitHash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+            "buildHref": "https://github.com/Beddy724/playwright-practice/actions/runs/14612739200"
           },
           "gitCommit": {
-            "shortHash": "c27930d",
-            "hash": "c27930dad933b3ad7c97a224678e78b763cdc56b",
-            "subject": "젠킨스 파일 슬랙알림 코드 수정",
-            "body": "젠킨스 파일 슬랙알림 코드 수정\n",
+            "shortHash": "cbacbba",
+            "hash": "cbacbba73d537b96a19b992d4ab993a9579c1ebf",
+            "subject": "개발환경 재설치 겸 확인",
+            "body": "개발환경 재설치 겸 확인\n",
             "author": {
-              "name": "Beddy724",
+              "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745160967000
+              "time": 1745394382000
             },
             "committer": {
-              "name": "Beddy724",
+              "name": "장혜린",
               "email": "jadelight9724@gmail.com",
-              "time": 1745160967000
+              "time": 1745394382000
             },
             "branch": "main"
           },
@@ -168,7 +168,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 62386,
+                  "duration": 78455,
                   "errors": [],
                   "stdout": [
                     {
@@ -183,7 +183,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-20T14:57:46.869Z",
+                  "startTime": "2025-04-23T07:47:36.940Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -227,7 +227,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 72132,
+                  "duration": 71447,
                   "errors": [],
                   "stdout": [
                     {
@@ -242,7 +242,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-04-20T14:58:50.107Z",
+                  "startTime": "2025-04-23T07:48:56.262Z",
                   "attachments": [
                     {
                       "name": "screenshot",
@@ -270,8 +270,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-04-20T14:57:46.156Z",
-    "duration": 136272.449,
+    "startTime": "2025-04-23T07:47:36.246Z",
+    "duration": 151653.364,
     "expected": 2,
     "skipped": 0,
     "unexpected": 0,
