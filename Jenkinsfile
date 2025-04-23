@@ -6,11 +6,11 @@ pipeline {
   }
 
   environment {
-    SLACK_BOT_TOKEN = credentials('slack-bot-token')
+    SLACK_BOT_TOKEN = credentials('SLACK_BOT_TOKEN')
   }
 
   triggers {
-    cron('H H/3 * * *')  // 매 3시간마다 실행
+    cron('H */3 * * *') // 매 3시간마다 실행
   }
 
   stages {
@@ -27,59 +27,51 @@ pipeline {
       }
     }
 
-    stage('Slack 알림') {
-    steps {
-    script {
-      def slackFile = 'test-results/slack-message.txt'
-      def message = ''
+    stage('Print lowest price (Slack 알림용)') {
+      steps {
+        script {
+          def summaryFile = 'test-results/lowest-flight.txt'
+          if (fileExists(summaryFile)) {
+            def content = readFile(summaryFile).trim()
+            echo "\n📦 최저가 알림 요약:\n${content}\n"
 
-      if (fileExists(slackFile)) {
-        message = readFile(slackFile).trim()
-      } else {
-        message = '❓ Playwright 테스트에서 슬랙 메시지가 생성되지 않았습니다.'
-      }
+            def escapedContent = content.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
+            def payload = """{
+              "channel": "#여행",
+              "blocks": [
+                {
+                  "type": "header",
+                  "text": {
+                    "type": "plain_text",
+                    "text": "✈️ 도쿄 항공권 최저가 알림",
+                    "emoji": true
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${escapedContent}"
+                  }
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "plain_text",
+                      "text": "Jenkins 자동화 알림입니다."
+                    }
+                  ]
+                }
+              ]
+            }"""
 
-      def escaped = message.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
-
-      def payload = """{
-        "channel": "#여행",
-        "blocks": [
-          {
-            "type": "header",
-            "text": {
-              "type": "plain_text",
-              "text": "✈️ 도쿄 항공권 자동 검색 결과",
-              "emoji": true
-            }
-          },
-          {
-            "type": "section",
-            "text": {
-              "type": "mrkdwn",
-              "text": "${escaped}"
-            }
-          },
-          {
-            "type": "context",
-            "elements": [
-              {
-                "type": "mrkdwn",
-                "text": "<https://beddy724.github.io/playwright-practice/|🔗 HTML 리포트 보러가기>"
-              }
-            ]
+            slackSend(tokenCredentialId: 'SLACK_BOT_TOKEN', payload: payload)
+          } else {
+            echo "📭 summaryFile(${summaryFile}) 파일이 존재하지 않아 Slack 메시지를 생략합니다."
           }
-        ]
-      }"""
-
-      writeFile file: 'slack.json', text: payload
-      sh 'curl -X POST -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" -H "Content-Type: application/json" --data @slack.json https://slack.com/api/chat.postMessage'
+        }
+      }
     }
   }
 }
-
-
-
-
-
-
- 
