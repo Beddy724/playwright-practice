@@ -234,6 +234,10 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     // ✅ 슬랙 알림용 최저가 추출
     const lowest = filteredList.reduce((min, item) => (item.price < min.price ? item : min), filteredList[0]);
 
+    // ✅ Influx에 쓸 값 여기서 설정!
+    influxPrice = lowest.price;
+    influxAirline = lowest.airline;
+
     const slackText =
      `✈️ *최저가 도쿄 항공권 안내!*\n\n` +
      `*항공사:* ${lowest.airline}\n` +
@@ -249,6 +253,8 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     writeFileSync('test-results/lowest-flight.txt', slackText);
   
     // ✅ 조건에 상관없이 InfluxDB 전송
+    console.log('📡 Influx 전송 준비:', influxAirline, influxPrice);
+
     try {
     const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
     await axios.post(
@@ -256,9 +262,9 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     influxData,
     { headers: { 'Content-Type': 'application/octet-stream' } }
     );
-  } catch (err) {
+   } catch (err) {
     console.error('⚠️ InfluxDB 전송 실패:', err.message);
-  }
+   }
   
   } else {
     test.info().annotations.push({
