@@ -77,11 +77,11 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
 
     const departHeader = page.locator(`.sc-dAlyuH:has-text("${departMonthLabel}")`).first();
     const calendarWrapper = departHeader.locator('xpath=..');
-    const calendarTable = calendarWrapper.locator('table');
+    await calendarWrapper.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
 
+    const calendarTable = calendarWrapper.locator('table');
     const departLocator = calendarTable.locator(`button:has(b:has-text("${departDay}"))`).first();
-    await departLocator.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(200);
 
     if (!(await departLocator.isVisible())) {
       console.log(`❌ ${departStr} 보이지 않음 (가는 날)`);
@@ -91,7 +91,10 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
       continue;
     }
 
+    await departLocator.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
     await departLocator.click();
+
     await expect(page.getByText('오는 날 선택')).toBeVisible({ timeout: 3000 });
 
     visibleMonths = await page.locator('.sc-dAlyuH').allTextContents();
@@ -109,11 +112,12 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     }
 
     const returnHeader = page.locator(`.sc-dAlyuH:has-text("${returnMonthLabel}")`).first();
-    const returnTable = returnHeader.locator('xpath=../..').locator('table');
-    const returnLocator = returnTable.locator(`button:has(b:has-text("${returnDay}"))`).first();
+    const returnWrapper = returnHeader.locator('xpath=..');
+    await returnWrapper.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(500);
 
-    await returnLocator.scrollIntoViewIfNeeded();
-    await page.waitForTimeout(200);
+    const returnTable = returnWrapper.locator('table');
+    const returnLocator = returnTable.locator(`button:has(b:has-text("${returnDay}"))`).first();
 
     if (!(await returnLocator.isVisible())) {
       console.log(`❌ ${returnStr} 보이지 않음 (오는 날)`);
@@ -123,6 +127,8 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
       continue;
     }
 
+    await returnLocator.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(300);
     await returnLocator.click();
 
     console.log(`✅ 선택된 날짜: ${departStr} ~ ${returnStr}`);
@@ -132,6 +138,8 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
   if (tryCount >= 3) {
     throw new Error('❌ 3주 동안 선택 가능한 금요일/일요일 조합을 찾지 못했습니다.');
   }
+
+  // 여기부터 항공권 검색, 슬랙 알림, 인플럭스 전송 계속 이어서 작성하면 돼! (이전 코드 그대로 복붙하면 돼)
 
   const searchButton = page.getByRole('button', { name: '항공권 검색' });
   await expect(searchButton).toBeVisible();
@@ -250,6 +258,7 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     }
   
     writeFileSync('test-results/lowest-flight.txt', slackText);
+    
     } else {
     test.info().annotations.push({
       type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
