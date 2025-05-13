@@ -139,8 +139,7 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     throw new Error('❌ 3주 동안 선택 가능한 금요일/일요일 조합을 찾지 못했습니다.');
   }
 
-  // 여기부터 항공권 검색, 슬랙 알림, 인플럭스 전송 계속 이어서 작성하면 돼! (이전 코드 그대로 복붙하면 돼)
-
+  
   const searchButton = page.getByRole('button', { name: '항공권 검색' });
   await expect(searchButton).toBeVisible();
   await searchButton.click();
@@ -177,7 +176,7 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     const rawPrice = await priceEl.innerText();
     const price = parseInt(rawPrice.replace(/[^\d]/g, ''), 10);
 
-    if (price >= 200000 && price <= 400000) {
+    if (price >= 100000 && price <= 400000) {
       const cardRoot = await priceEl.evaluateHandle(el =>
         el.closest('div[class*="concurrent_ConcurrentItemContainer"]')
       );
@@ -234,14 +233,12 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
       .join('\n');
 
     test.info().annotations.push({
-      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+      type: '📦 1인 도쿄 왕복 항공권 (10~40만원 + 시간)',
       description: `총 ${filteredList.length}건 검색되었습니다. (조건: 오전 9시 이전 인천 출발 / 오후 2시 이전 나리타 출발)\n\n${rowsText}`
     });
 
     // ✅ 슬랙 알림용 최저가 추출
     const lowest = filteredList.reduce((min, item) => (item.price < min.price ? item : min), filteredList[0]);
-
-    // ✅ Influx에 쓸 값 여기서 설정!
     influxPrice = lowest.price;
     influxAirline = lowest.airline;
 
@@ -252,13 +249,14 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
      `*인천 출발:* ${lowest.goTime} / *나리타 도착:* ${lowest.goArrive}\n` +
      `*나리타 출발:* ${lowest.backTime} / *인천 도착:* ${lowest.backArrive}`;
 
-
+    // ✅ 파일로 저장
      if (!existsSync('test-results')) {
       mkdirSync('test-results', { recursive: true });
     }
   
     writeFileSync('test-results/lowest-flight.txt', slackText);
-    
+
+          
     } else {
     test.info().annotations.push({
       type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
@@ -271,7 +269,7 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     try {
     const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
     await axios.post(
-    'http://influxdb:8086/write?db=qa_results',
+    'http://host.docker.internal:8086/write?db=qa_results',
     influxData,
     { headers: { 'Content-Type': 'application/octet-stream' } }
   );
