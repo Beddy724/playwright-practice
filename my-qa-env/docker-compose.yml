@@ -8,6 +8,8 @@ services:
       - "8086:8086"
     volumes:
       - influxdb-storage:/var/lib/influxdb
+    networks:
+      - backend
 
   grafana:
     image: grafana/grafana
@@ -16,19 +18,30 @@ services:
       - "3001:3000"
     depends_on:
       - influxdb
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - backend
 
   jenkins:
     build:
       context: .
-      dockerfile: Dockerfile  # 👈 우리가 만든 Dockerfile을 사용
+      dockerfile: Dockerfile
     container_name: jenkins
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
+    networks:
+      - backend  # ✅ 여기 추가해야 InfluxDB 접근 가능
 
 volumes:
   influxdb-storage:
   jenkins_home:
+  grafana-storage:
+
+networks:
+  backend:  # ✅ 공통 네트워크 선언
+
 
