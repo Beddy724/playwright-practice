@@ -7,6 +7,7 @@ pipeline {
 
   environment {
     SLACK_BOT_TOKEN = credentials('SLACK_BOT_TOKEN')
+    CHANNEL = '#여행'
   }
 
   triggers {
@@ -27,49 +28,35 @@ pipeline {
       }
     }
 
-    stage('Print lowest price (Slack 알림용)') {
+    stage('Slack 알림 전송 (GitHub 스타일)') {
       steps {
         script {
+          def status = currentBuild.currentResult
+          def emoji = '✅'
+          def text = 'PASS'
+
+          if (status != 'SUCCESS') {
+            emoji = '❌'
+            text = 'FAIL'
+          }
+
+          def flightInfo = '❓ 최저가 항공권 정보를 찾을 수 없습니다.'
           def summaryFile = 'test-results/lowest-flight.txt'
           if (fileExists(summaryFile)) {
-            def content = readFile(summaryFile).trim()
-            echo "\n📦 최저가 알림 요약:\n${content}\n"
-
-            def escapedContent = content.replaceAll('"', '\\\\"').replaceAll('\n', '\\\\n')
-            def payload = """{
-              "channel": "#여행",
-              "blocks": [
-                {
-                  "type": "header",
-                  "text": {
-                    "type": "plain_text",
-                    "text": "✈️ 도쿄 항공권 최저가 알림",
-                    "emoji": true
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "${escapedContent}"
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
-                    {
-                      "type": "plain_text",
-                      "text": "Jenkins 자동화 알림입니다."
-                    }
-                  ]
-                }
-              ]
-            }"""
-
-            slackSend(tokenCredentialId: 'SLACK_BOT_TOKEN', payload: payload)
-          } else {
-            echo "📭 summaryFile(${summaryFile}) 파일이 존재하지 않아 Slack 메시지를 생략합니다."
+            flightInfo = readFile(summaryFile).trim()
           }
+
+          def payload = """{
+            "channel": "${env.CHANNEL}",
+            "text": "${emoji} ${text}\\n\\n${flightInfo}\\n\\n👉 <https://beddy724.github.io/playwright-practice/|Report 보러가기>"
+          }"""
+
+          sh """
+            curl -X POST https://slack.com/api/chat.postMessage \\
+              -H "Authorization: Bearer ${SLACK_BOT_TOKEN}" \\
+              -H "Content-Type: application/json" \\
+              -d '${payload}'
+          """
         }
       }
     }
