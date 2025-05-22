@@ -12,7 +12,7 @@ pipeline {
   }
 
   triggers {
-    cron('H */3 * * *') // 매 3시간마다 실행
+    cron('H/3 * * * *') // 매 3분마다 실행
   }
 
   stages {
