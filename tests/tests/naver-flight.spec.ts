@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { mkdirSync, writeFileSync, existsSync } from 'fs';
 import axios from 'axios';
 import { ElementHandle } from '@playwright/test';
 
@@ -259,21 +259,25 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
           
     } else {
     test.info().annotations.push({
-      type: '📦 1인 도쿄 왕복 항공권 (20~40만원 + 시간)',
+      type: '📦 1인 도쿄 왕복 항공권 (10~40만원 + 시간)',
       description: '❌ 조건에 맞는 항공권을 찾을 수 없습니다.'
      });
     }
   
     // ✅ 조건에 관계없이 항상 Influx 전송
-    console.log('📡 Influx 전송 준비:', influxAirline, influxPrice);
-    try {
-    const influxData = `flight_price,direction=roundtrip,airline=${influxAirline},week=1 price=${influxPrice}`;
-    await axios.post(
-    'http://host.docker.internal:8086/write?db=qa_results',
-    influxData,
-    { headers: { 'Content-Type': 'application/octet-stream' } }
-  );
+    if (influxPrice > 0 && influxAirline !== 'none') {
+  try {
+    const influxHost = process.env.INFLUX_URL || (process.env.HOME?.includes('Users') ? 'http://localhost:8086' : 'http://influxdb:8086');
+    const influxLine = `flight,destination=tokyo airline="${influxAirline}",price=${influxPrice}`;
+
+    await axios.post(`${influxHost}/write?db=mydb`, influxLine, {
+      headers: { 'Content-Type': 'text/plain' }
+    });
+
+    console.log('📡 InfluxDB 전송 성공:', influxLine);
   } catch (err) {
-    console.error('⚠️ Influx 전송 실패:', err.message);
-} 
+    console.error('❌ InfluxDB 전송 실패:', err.message);
+  }
+}
+
 });

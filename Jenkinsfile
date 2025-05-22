@@ -8,6 +8,7 @@ pipeline {
   environment {
     SLACK_BOT_TOKEN = credentials('SLACK_BOT_TOKEN')
     CHANNEL = '#여행'
+    INFLUX_URL = 'http://influxdb:8086'
   }
 
   triggers {
