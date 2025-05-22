@@ -267,8 +267,13 @@ test('네이버 도쿄 항공권 검색', async ({ page }) => {
     // ✅ 조건에 관계없이 항상 Influx 전송
     if (influxPrice > 0 && influxAirline !== 'none') {
   try {
+    // 다시 최저가 항공권 정보 추출
+    const lowest = filteredList.reduce((min, item) => (item.price < min.price ? item : min), filteredList[0]);
+    const goHour = lowest.goTime.split(':')[0];  // "07:20" → "07"
+
     const influxHost = process.env.INFLUX_URL || (process.env.HOME?.includes('Users') ? 'http://localhost:8086' : 'http://influxdb:8086');
-    const influxLine = `flight,destination=tokyo airline="${influxAirline}",price=${influxPrice}`;
+
+    const influxLine = `flight,destination=tokyo,airline=${lowest.airline},go_hour=${goHour} price=${lowest.price}`;
 
     await axios.post(`${influxHost}/write?db=mydb`, influxLine, {
       headers: { 'Content-Type': 'text/plain' }
